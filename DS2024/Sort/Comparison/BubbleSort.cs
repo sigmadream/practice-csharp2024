@@ -1,17 +1,17 @@
 ﻿namespace DS2024.Sort.Comparison;
 
-public class BubbleSort : IComparisonSorter
+public class BubbleSort<T> : IComparisonSorter<T>
 {
-    public int[] Sort(int[] array, IComparer<int> comparer)
+    public void Sort(T[] array, IComparer<T> comparer)
     {
-        for (int i = 0; i < array.Length - 1; i++)
+        for (var i = 0; i < array.Length - 1; i++)
         {
             bool wasChanged = false;
-            for (int j = 0; j < array.Length - i - 1; j++)
+            for (var j = 0; j < array.Length - i - 1; j++)
             {
                 if (comparer.Compare(array[j], array[j + 1]) > 0)
                 {
-                    int temp = array[j];
+                    var temp = array[j];
                     array[j] = array[j + 1];
                     array[j + 1] = temp;
                     wasChanged = true;
@@ -23,6 +23,5 @@ public class BubbleSort : IComparisonSorter
                 break;
             }
         }
-        return array;
     }
 }

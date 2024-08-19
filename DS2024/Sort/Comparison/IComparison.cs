@@ -1,6 +1,6 @@
 ﻿namespace DS2024.Sort.Comparison;
 
-public interface IComparisonSorter
+public interface IComparisonSorter<T>
 {
-    int[] Sort(int[] array, IComparer<int> comparer);
+    void Sort(T[] array, IComparer<T> comparer);
 }
