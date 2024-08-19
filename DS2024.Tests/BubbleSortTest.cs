@@ -10,7 +10,7 @@ namespace DS2024.Tests
         {
             int[] inputArray = new int[] { 23, 42, 4, 16, 8, 15, 3, 9, 55, 0, 34, 12, 2, 46, 25 };
             BubbleSort bubbleSort = new();
-            int[] sortedArray = bubbleSort.sort(inputArray);            
+            int[] sortedArray = bubbleSort.Sort(inputArray, Comparer<int>.Create((x, y) => x.CompareTo(y)));
             Assert.Equivalent(sortedArray, inputArray);
         }
     }
