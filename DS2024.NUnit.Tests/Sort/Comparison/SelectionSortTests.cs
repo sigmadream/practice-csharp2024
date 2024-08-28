@@ -2,7 +2,7 @@ using DS2024.Sort.Comparison;
 
 namespace DS2024.NUnit.Tests.Sort.Comparison;
 
-public class BubbleSortTests
+public class SelectionSortTests
 {
     private static (int[] correctArray, int[] testArray) GetArrays(int n)
     {
@@ -23,7 +23,7 @@ public class BubbleSortTests
     public static void ArraySorted([Random(0, 1000, 100, Distinct = true)] int n)
     {
         // Arrange
-        var sorter = new BubbleSort<int>();
+        var sorter = new SelectionSort<int>();
         var (correctArray, testArray) = GetArrays(n);
 
         // Act

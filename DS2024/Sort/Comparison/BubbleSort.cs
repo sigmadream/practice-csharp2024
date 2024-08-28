@@ -11,9 +11,7 @@ public class BubbleSort<T> : IComparisonSorter<T>
             {
                 if (comparer.Compare(array[j], array[j + 1]) > 0)
                 {
-                    var temp = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = temp;
+                    (array[j + 1], array[j]) = (array[j], array[j + 1]);
                     wasChanged = true;
                 }
             }
