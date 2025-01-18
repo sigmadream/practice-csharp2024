@@ -1,4 +1,4 @@
-﻿namespace DS2024.Tests.Sort.Comparison;
+﻿namespace DS.Tests.Sort.Comparison;
 
 internal static class RandomArray
 {

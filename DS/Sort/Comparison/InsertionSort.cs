@@ -1,4 +1,4 @@
-﻿namespace DS2024.Sort.Comparison;
+﻿namespace DS.Sort.Comparison;
 
 public class InsertionSort<T> : IComparisonSorter<T>
 {

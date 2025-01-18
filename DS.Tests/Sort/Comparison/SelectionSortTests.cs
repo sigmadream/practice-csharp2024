@@ -1,14 +1,15 @@
-using DS2024.Sort.Comparison;
+using DS.Sort.Comparison;
 
-namespace DS2024.Tests.Sort.Comparison;
+namespace DS.Tests.Sort.Comparison;
 
-public class InsertionSortTests
+public class SelectionSortTests
 {
+
     [Test]
     public static void ArraySorted([Random(0, 1000, 100, Distinct = true)] int n)
     {
         // Arrange
-        var sorter = new InsertionSort<int>();
+        var sorter = new SelectionSort<int>();
         var (correctArray, testArray) = RandomArray.GetArrays(n);
 
         // Act

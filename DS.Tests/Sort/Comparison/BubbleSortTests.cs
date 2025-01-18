@@ -1,6 +1,6 @@
-using DS2024.Sort.Comparison;
+using DS.Sort.Comparison;
 
-namespace DS2024.Tests.Sort.Comparison;
+namespace DS.Tests.Sort.Comparison;
 
 public class BubbleSortTests
 {

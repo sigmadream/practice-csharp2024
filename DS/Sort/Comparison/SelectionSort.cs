@@ -1,5 +1,5 @@
 ﻿
-namespace DS2024.Sort.Comparison;
+namespace DS.Sort.Comparison;
 
 public class SelectionSort<T> : IComparisonSorter<T>
 {
