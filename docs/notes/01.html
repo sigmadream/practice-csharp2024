@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-01-19">
+
+<title>C#의 역사와 특징 – Practice C#</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fad5ab29a14bbe0a7a7d29177f3f13bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="C#의 역사와 특징 – Practice C#">
+<meta property="og:description" content="“C#은 마이크로소프트가 2000년대 초반에 .NET 플랫폼과 함께 선보인 현대적인 객체 지향 언어로, 자바의 문법과 유사하면서도 강력한 기능 확장을 통해 생산성과 성능을 동시에 추구합니다. 초기에는 Windows 중심의 .NET 프레임워크 상에서만 사용되었으나, 점차 .NET Core와 .NET 5 이상으로 발전하며 크로스 플랫폼 환경에서 동등하게 실행될 수 있도록 확장되었습니다. 자동 메모리 관리(GC), 예외 처리, 강력한 타입 시스템 같은 기본 기능을 제공함으로써 안정적이고 유지보수하기 쉬운 코드를 작성할 수 있으며, 최근 들어서는 레코드, 패턴 매칭, 원시 문자열 리터럴, 정적 추상 멤버처럼 다양한 최신 문법을 도입해 개발자 경험을 지속적으로 개선하고 있습니다.”">
+<meta property="og:site_name" content="Practice C#">
+<meta name="twitter:title" content="C#의 역사와 특징 – Practice C#">
+<meta name="twitter:description" content="“C#은 마이크로소프트가 2000년대 초반에 .NET 플랫폼과 함께 선보인 현대적인 객체 지향 언어로, 자바의 문법과 유사하면서도 강력한 기능 확장을 통해 생산성과 성능을 동시에 추구합니다. 초기에는 Windows 중심의 .NET 프레임워크 상에서만 사용되었으나, 점차 .NET Core와 .NET 5 이상으로 발전하며 크로스 플랫폼 환경에서 동등하게 실행될 수 있도록 확장되었습니다. 자동 메모리 관리(GC), 예외 처리, 강력한 타입 시스템 같은 기본 기능을 제공함으로써 안정적이고 유지보수하기 쉬운 코드를 작성할 수 있으며, 최근 들어서는 레코드, 패턴 매칭, 원시 문자열 리터럴, 정적 추상 멤버처럼 다양한 최신 문법을 도입해 개발자 경험을 지속적으로 개선하고 있습니다.”">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Practice C#</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/01.html">C#의 역사와 특징</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/01.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">C#의 역사와 특징</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#c의-역사와-특징" id="toc-c의-역사와-특징" class="nav-link active" data-scroll-target="#c의-역사와-특징"><code>C#</code>의 역사와 특징</a>
+  <ul class="collapse">
+  <li><a href="#c의-변경사항" id="toc-c의-변경사항" class="nav-link" data-scroll-target="#c의-변경사항"><code>C#</code>의 변경사항</a></li>
+  </ul></li>
+  <li><a href="#net" id="toc-net" class="nav-link" data-scroll-target="#net"><code>.NET</code></a>
+  <ul class="collapse">
+  <li><a href="#net의-구성-요소" id="toc-net의-구성-요소" class="nav-link" data-scroll-target="#net의-구성-요소">.NET의 구성 요소</a></li>
+  <li><a href="#net의-주요-특징" id="toc-net의-주요-특징" class="nav-link" data-scroll-target="#net의-주요-특징">.NET의 주요 특징</a></li>
+  <li><a href="#net의-장점" id="toc-net의-장점" class="nav-link" data-scroll-target="#net의-장점">.NET의 장점</a></li>
+  <li><a href="#net의-변화-과거와-현재" id="toc-net의-변화-과거와-현재" class="nav-link" data-scroll-target="#net의-변화-과거와-현재">.NET의 변화: 과거와 현재</a></li>
+  <li><a href="#clr" id="toc-clr" class="nav-link" data-scroll-target="#clr">CLR</a></li>
+  <li><a href="#c과-.net의-관계" id="toc-c과-.net의-관계" class="nav-link" data-scroll-target="#c과-.net의-관계">C#과 .NET의 관계</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="01.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">C#의 역사와 특징</h1>
+<p class="subtitle lead">C#, .NET and CLR</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">C#</div>
+    <div class="quarto-category">.NET</div>
+    <div class="quarto-category">CLR</div>
+    <div class="quarto-category">Visual Studio</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 19, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p>“C#은 마이크로소프트가 2000년대 초반에 .NET 플랫폼과 함께 선보인 현대적인 객체 지향 언어로, 자바의 문법과 유사하면서도 강력한 기능 확장을 통해 생산성과 성능을 동시에 추구합니다. 초기에는 Windows 중심의 .NET 프레임워크 상에서만 사용되었으나, 점차 .NET Core와 .NET 5 이상으로 발전하며 크로스 플랫폼 환경에서 동등하게 실행될 수 있도록 확장되었습니다. 자동 메모리 관리(GC), 예외 처리, 강력한 타입 시스템 같은 기본 기능을 제공함으로써 안정적이고 유지보수하기 쉬운 코드를 작성할 수 있으며, 최근 들어서는 레코드, 패턴 매칭, 원시 문자열 리터럴, 정적 추상 멤버처럼 다양한 최신 문법을 도입해 개발자 경험을 지속적으로 개선하고 있습니다.”</p>
+  </div>
+</div>
+
+
+</header>
+
+
+<section id="c의-역사와-특징" class="level2">
+<h2 class="anchored" data-anchor-id="c의-역사와-특징"><code>C#</code>의 역사와 특징</h2>
+<p>C#은 Microsoft에서 1999년에 개발한 프로그래밍 언어입니다. 현대적이고 객체 지향적인 언어로, .NET 프레임워크에서 실행되도록 설계되었습니다. C#의 문법은 C++ 및 Java와 유사하지만 Delphi 및 Visual Basic과 같은 다른 언어의 기능도 포함합니다. C#은 처음 출시된 이후 여러 번의 개정을 거쳐 각 릴리스마다 새로운 기능을 추가했습니다. 오늘날 C#은 Windows 데스크톱 애플리케이션, 웹 애플리케이션, 게임 및 모바일 앱 개발에 널리 사용됩니다. &nbsp;</p>
+<section id="c의-변경사항" class="level3">
+<h3 class="anchored" data-anchor-id="c의-변경사항"><code>C#</code>의 변경사항</h3>
+<section id="c-10의-주요-변경사항" class="level4">
+<h4 class="anchored" data-anchor-id="c-10의-주요-변경사항">C# 10의 주요 변경사항</h4>
+<ul>
+<li>파일 범위 네임스페이스(File-scoped namespace), 기존에는 네임스페이스를 감싸는 중괄호 <code>{}</code> 를 사용해야 했습니다. C# 10에서는 파일 최상단에 한 줄로 선언이 가능합니다. 코드 중첩이 줄어들어 가독성과 유지보수성이 향상됩니다.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 기존 방식</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> MyApp</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> Program</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">()</span> <span class="op">{</span> <span class="op">}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">// C# 10 파일 범위 네임스페이스</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> MyApp<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Program</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">()</span> <span class="op">{</span> <span class="op">}</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>전역 using 지시문(Global using directives), using 지시문을 전역으로 선언하여, 모든 파일에서 공통으로 사용할 수 있도록 해줍니다. 프로젝트 전역에서 공통 사용되는 네임스페이스를 한 곳에 모아 정리할 수 있어, 코드 중복을 줄입니다.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// GlobalUsings.cs (프로젝트 내 한 곳에만 작성)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>global <span class="kw">using</span> System<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>global <span class="kw">using</span> System<span class="op">.</span><span class="fu">Collections</span><span class="op">.</span><span class="fu">Generic</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">// 다른 파일 어디서든 System, System.Collections.Generic를 별도의 using 없이 사용 가능</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> MyApp<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Demo</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> List<span class="op">&lt;</span><span class="dt">string</span><span class="op">&gt;</span> Names <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> <span class="kw">new</span><span class="op">();</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Record structs, C# 9에서 소개된 record는 기본적으로 참조 타입이었으나, C# 10부터는 값 타입인 구조체 형태도 지원합니다. 구조체의 값 복사 특성과 레코드의 불변성 및 편의 기능을 동시에 활용할 수 있습니다.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> record <span class="kw">struct</span> <span class="fu">Point</span><span class="op">(</span><span class="dt">int</span> X<span class="op">,</span> <span class="dt">int</span> Y<span class="op">);</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Point</span><span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">);</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p2 <span class="op">=</span> p1 with <span class="op">{</span> Y <span class="op">=</span> <span class="dv">10</span> <span class="op">};</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">// 구조체지만 record로 선언했기 때문에 with 식 사용 가능</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>p2<span class="op">);</span> <span class="co">// Point { X = 3, Y = 10 }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>람다 식 개선(Lambda improvements), 람다 식에서 반환 형식을 컴파일러가 추론할 수 있으며, 람다 식에 속성(Attribute)을 붙일 수 있습니다. 매개변수가 없는 람다 식에서 <code>_</code>(디스카드)를 사용해도 됩니다.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Func<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> square <span class="op">=</span> <span class="op">[</span>MyAttribute<span class="op">]</span> x <span class="op">=&gt;</span> x <span class="op">*</span> x<span class="op">;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">// 반환형 추론, Attribute 적용 가능</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> print <span class="op">=</span> <span class="op">()</span> <span class="op">=&gt;</span> Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"Hello"</span><span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span><span class="op">();</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>상수 문자열 보간(Constant interpolated strings), 상수(const) 필드에서도 문자열 보간이 가능해졌습니다.</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">string</span> Greeting <span class="op">=</span> <span class="st">"Hello"</span><span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">string</span> Message <span class="op">=</span> $<span class="st">"{Greeting}, World!"</span><span class="op">;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">// C# 9까지는 불가, C# 10에서는 가능</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="c-11의-주요-변경사항" class="level4">
+<h4 class="anchored" data-anchor-id="c-11의-주요-변경사항">C# 11의 주요 변경사항</h4>
+<ul>
+<li>원시 문자열 리터럴(Raw string literals), 문자열을 <code>"""</code>로 둘러싸, 특수문자나 줄바꿈을 이스케이프 없이 그대로 표현할 수 있습니다. JSON, XML, Markdown 등의 멀티라인 문자열을 가독성 좋게 표현할 수 있습니다.</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> raw <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    이것은 <span class="st">"원시"</span> 문자열입니다<span class="op">.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    \n<span class="op">,</span> \t 등을 이스케이프 처리하지 않아도 됩니다<span class="op">.</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">""";</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>raw<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>UTF-8 문자열 리터럴, 문자열 리터럴 뒤에 u8 접미사를 붙여 UTF-8 인코딩된 바이트 배열을 직접 생성할 수 있습니다. 별도의 인코딩 과정 없이 UTF-8 바이트 배열을 얻을 수 있어 성능상 이점이 있습니다.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ReadOnlySpan<span class="op">&lt;</span><span class="dt">byte</span><span class="op">&gt;</span> utf8Bytes <span class="op">=</span> <span class="st">"안녕하세요"</span>u8<span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>utf8Bytes<span class="op">.</span><span class="fu">Length</span><span class="op">);</span>  <span class="co">// UTF-8로 인코딩된 길이</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>required 멤버, 객체나 레코드가 생성될 때 반드시 초기화해야 하는 필드를 지정할 수 있습니다. 중요한 필드의 누락을 컴파일 시간에 미리 방지할 수 있습니다.</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Person</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> required <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> init<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Age <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> init<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span><span class="op">,</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Name은 반드시 설정, Age는 선택</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>정적 추상 멤버(Static abstract members in interfaces), 인터페이스에 정적 추상 멤버를 정의할 수 있어, 제네릭 수학 연산 등 다양한 패턴을 지원합니다. +, - 연산자나 수학 관련 함수를 제네릭에서 간단히 이용할 수 있어, 수치 라이브러리 구현이 용이해집니다.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">interface</span> IAddition<span class="op">&lt;</span>TSelf<span class="op">&gt;</span> where TSelf <span class="op">:</span> IAddition<span class="op">&lt;</span>TSelf<span class="op">&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">static</span> <span class="kw">abstract</span> TSelf <span class="kw">operator</span> <span class="op">+(</span>TSelf left<span class="op">,</span> TSelf right<span class="op">);</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">struct</span> MyInt <span class="op">:</span> IAddition<span class="op">&lt;</span>MyInt<span class="op">&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Value <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">MyInt</span><span class="op">(</span><span class="dt">int</span> value<span class="op">)</span> <span class="op">=&gt;</span> Value <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> MyInt <span class="kw">operator</span> <span class="op">+(</span>MyInt left<span class="op">,</span> MyInt right<span class="op">)</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">=&gt;</span> <span class="kw">new</span> <span class="fu">MyInt</span><span class="op">(</span>left<span class="op">.</span><span class="fu">Value</span> <span class="op">+</span> right<span class="op">.</span><span class="fu">Value</span><span class="op">);</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>리스트 패턴(List patterns), 배열이나 리스트를 패턴 매칭으로 검사할 수 있습니다. 배열의 특정 형태를 깔끔하게 검사할 수 있습니다.</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span> <span class="op">};</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">// 완벽 일치</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>numbers <span class="kw">is</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">])</span> Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"numbers는 1,2,3으로 구성"</span><span class="op">);</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>numbers <span class="kw">is</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="op">..])</span> Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"첫 번째 요소가 1"</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>file 접근 한정자(File-scoped types), file 한정자를 사용해 해당 파일 내에서만 유효한 클래스(또는 구조체, 열거형 등)를 선언할 수 있습니다. 특정 파일에서만 사용하는 헬퍼 타입 등을 은닉하여, 네임스페이스 오염을 줄일 수 있습니다.</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>file <span class="kw">class</span> MyFileScopedClass</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 이 파일 바깥에서는 접근 불가</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="c-12의-주요-변경사항" class="level4">
+<h4 class="anchored" data-anchor-id="c-12의-주요-변경사항">C# 12의 주요 변경사항</h4>
+<ul>
+<li>클래스/구조체용 기본 생성자 (Primary constructors for non-record types), 레코드가 아닌 일반 클래스나 구조체에서도 생성자 매개변수를 클래스 선언부에 직접 선언할 수 있습니다. 레코드에서 사용하던 간결한 생성자 문법을 일반 클래스/구조체에도 적용 가능해집니다.</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="fu">Person</span><span class="op">(</span><span class="dt">string</span> name<span class="op">,</span> <span class="dt">int</span> age<span class="op">)</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Age <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="op">}</span> <span class="op">=</span> age<span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> p <span class="op">=</span> <span class="kw">new</span> <span class="fu">Person</span><span class="op">(</span><span class="st">"Alice"</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>p<span class="op">.</span><span class="fu">Name</span><span class="op">);</span> <span class="co">// "Alice"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>using 별칭 지시문(Using alias directive) 확장, 임의의 타입이나 멤버에 대해 using 별칭을 지정할 수 있도록 확장될 예정입니다. 긴 네임스페이스나 자주 쓰는 멤버를 짧게 별칭화하여 가독성을 높입니다.</li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> MyInt <span class="op">=</span> System<span class="op">.</span><span class="fu">Int32</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">static</span> System<span class="op">.</span><span class="fu">Math</span><span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">Sqrt</span><span class="op">(</span><span class="dv">25</span><span class="op">));</span> <span class="co">// using static System.Math 덕분에 바로 Sqrt 사용</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>람다 파라미터 기본값(Default values for lambda parameters), 람다 식의 매개변수에 기본값을 지정할 수 있게 됩니다. 메서드와 동일한 방식으로 매개변수의 기본값을 설정할 수 있어, 코드가 더 간결해집니다.</li>
+</ul>
+<div class="sourceCode" id="cb14"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Func<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> add <span class="op">=</span> <span class="op">(</span>x <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">=&gt;</span> x <span class="op">+</span> y<span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">add</span><span class="op">());</span>      <span class="co">// 0</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">add</span><span class="op">(</span><span class="dv">5</span><span class="op">));</span>     <span class="co">// 5</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">add</span><span class="op">(</span><span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">));</span> <span class="co">// 15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="net" class="level2">
+<h2 class="anchored" data-anchor-id="net"><code>.NET</code></h2>
+<p>.NET은 Microsoft에서 개발한 소프트웨어 개발 플랫폼입니다. 2002년 처음 출시된 이후 윈도우 애플리케이션 개발을 위한 강력한 도구로 자리매김했으며, 현재는 웹, 모바일, 게임, IoT, AI 등 다양한 분야에서 활용되고 있습니다. .NET은 개발자가 다양한 프로그래밍 언어를 사용하여 애플리케이션을 구축할 수 있도록 지원하며, 풍부한 라이브러리와 도구를 제공하여 개발 생산성을 향상시킵니다.</p>
+<section id="net의-구성-요소" class="level3">
+<h3 class="anchored" data-anchor-id="net의-구성-요소">.NET의 구성 요소</h3>
+<ul>
+<li>.NET Core, 크로스 플랫폼 애플리케이션 개발을 위한 프레임워크, 윈도우, macOS, Linux 등 다양한 운영체제에서 실행 가능</li>
+<li>.NET Framework, 윈도우 데스크톱 및 서버 애플리케이션 개발을 위한 프레임워크</li>
+<li>.NET MAUI, 모바일 및 데스크톱 애플리케이션을 위한 크로스 플랫폼 프레임워크, 단일 코드 베이스로 Android, iOS, macOS, Windows 애플리케이션을 개발할 수 있음</li>
+<li>.NET SDK, .NET 애플리케이션을 빌드하고 실행하는 데 필요한 도구 및 라이브러리를 포함, 컴파일러, 런타임, 라이브러리 및 명령줄 도구가 포함</li>
+</ul>
+</section>
+<section id="net의-주요-특징" class="level3">
+<h3 class="anchored" data-anchor-id="net의-주요-특징">.NET의 주요 특징</h3>
+<ul>
+<li>다양한 언어 지원, C#, F#, Visual Basic 등 다양한 프로그래밍 언어를 지원</li>
+<li>크로스 플랫폼, .NET Core 이후 버전부터는 윈도우, macOS, Linux 등 다양한 운영체제에서 실행 가능</li>
+<li>풍부한 라이브러리: 다양한 작업을 위한 풍부한 클래스 라이브러리를 제공</li>
+<li>뛰어난 성능: Just-In-Time (JIT) 컴파일을 통해 높은 성능을 제공</li>
+<li>강력한 보안: 코드 액세스 보안 및 역할 기반 보안을 제공</li>
+</ul>
+</section>
+<section id="net의-장점" class="level3">
+<h3 class="anchored" data-anchor-id="net의-장점">.NET의 장점</h3>
+<ul>
+<li>생산성 향상, 풍부한 라이브러리와 도구를 통해 개발 시간을 단축하고 생산성을 향상시킬 수 있음</li>
+<li>유지 보수 용이성, 객체 지향 프로그래밍 및 모듈식 설계를 통해 코드를 쉽게 유지 보수할 수 있음</li>
+<li>안정성, 강력한 형식 검사 및 예외 처리 메커니즘을 통해 안정적인 애플리케이션을 개발할 수 있음</li>
+<li>확장성, .NET 애플리케이션은 높은 확장성을 제공하여 대규모 시스템 구축에 적합</li>
+<li>보안: .NET 플랫폼은 강력한 보안 기능을 제공하여 안전한 애플리케이션을 개발할 수 있음</li>
+</ul>
+</section>
+<section id="net의-변화-과거와-현재" class="level3">
+<h3 class="anchored" data-anchor-id="net의-변화-과거와-현재">.NET의 변화: 과거와 현재</h3>
+<p>.NET은 처음 출시된 이후 지속적인 발전을 거듭해왔습니다. 초기에는 윈도우 데스크톱 애플리케이션 개발에 중점을 두었지만, 현재는 웹, 모바일, 클라우드, 게임 등 다양한 분야에서 활용될 수 있도록 진화했습니다. 이러한 변화는 .NET Framework에서 .NET Core로의 전환, 그리고 .NET 5, 6, 7, 8, 9로 이어지는 통합 및 발전 과정을 통해 이루어졌습니다.</p>
+<section id="net-framework-시대-2002년-2016년" class="level4">
+<h4 class="anchored" data-anchor-id="net-framework-시대-2002년-2016년">.NET Framework 시대 (2002년 ~ 2016년)</h4>
+<p>.NET Framework는 2002년 처음 출시되었습니다. 윈도우 운영체제에서 애플리케이션을 개발하고 실행하기 위한 프레임워크로, C#, Visual Basic, F# 등 다양한 언어를 지원했습니다. .NET Framework는 윈도우 데스크톱 애플리케이션, 웹 애플리케이션, 웹 서비스 등 다양한 애플리케이션 개발에 널리 사용되었습니다. 당시에는 윈도우 운영체제에 종속적이었습니다. ASP.NET 웹 프레임워크를 통해 웹 애플리케이션 개발을 지원하였고, Windows Forms 및 WPF를 통해 데스크톱 애플리케이션 개발을 지원하였습니다. .NET Framework는 윈도우 애플리케이션 개발에 큰 영향을 미쳤지만, 윈도우 운영체제에 종속적이라는 한계를 가지고 있었습니다. 이러한 한계를 극복하고 크로스 플랫폼 지원을 위해 .NET Core가 등장하게 됩니다.</p>
+</section>
+<section id="net-core-시대-2016년-2020년" class="level4">
+<h4 class="anchored" data-anchor-id="net-core-시대-2016년-2020년">.NET Core 시대 (2016년 ~ 2020년)</h4>
+<p>.NET Framework의 한계를 극복하고 크로스 플랫폼 지원, 오픈 소스 생태계 확장, 성능 향상을 목표로 2016년 .NET Core가 출시되었습니다. .NET Core는 모듈식 디자인을 채택하여 개발자가 필요한 구성 요소만 선택적으로 사용할 수 있도록 하였고, 이는 애플리케이션의 크기를 줄이고 배포를 용이하게 했습니다. 또한, 명령줄 인터페이스(CLI)를 통해 개발자가 다양한 플랫폼에서 애플리케이션을 빌드하고 실행할 수 있도록 지원했습니다. 윈도우, macOS, Linux 등 다양한 운영체제에서 실행 가능하도록 개선하였고, .NET Core는 오픈 소스 프로젝트로, 개발자 커뮤니티의 참여를 통해 빠르게 발전했습니다. 필요한 구성 요소만 선택적으로 사용할 수 있어 애플리케이션 크기를 줄이고 배포를 용이하게 합니다. .NET Framework 대비 성능이 크게 향상되었습니다. CLI를 통해 다양한 플랫폼에서 애플리케이션을 빌드하고 실행할 수 있습니다. .NET Core는 크로스 플랫폼 지원 및 오픈 소스 생태계 확장을 통해 .NET 플랫폼의 새로운 가능성을 열었습니다. 이후 .NET 5를 통해 .NET Framework와 .NET Core는 하나의 통합된 플랫폼으로 발전하게 됩니다.</p>
+</section>
+<section id="통합과-발전-2020년-현재" class="level4">
+<h4 class="anchored" data-anchor-id="통합과-발전-2020년-현재">통합과 발전 (2020년 ~ 현재)</h4>
+<p>2020년 11월, Microsoft는 .NET 5를 출시하며 .NET Framework와 .NET Core를 하나의 통합된 플랫폼으로 발전시켰습니다. .NET 5는 단일 코드 베이스로 윈도우, macOS, Linux, iOS, Android 등 다양한 플랫폼에서 실행 가능한 애플리케이션을 개발할 수 있도록 지원합니다. 또한, 성능 향상, 새로운 언어 기능 추가, 클라우드 네이티브 지원 강화 등 다양한 개선 사항을 포함했습니다. .NET 5 이후, Microsoft는 매년 새로운 버전의 .NET을 출시하며 플랫폼을 지속적으로 발전시키고 있습니다. .NET 6는 .NET MAUI를 통해 크로스 플랫폼 모바일 및 데스크톱 애플리케이션 개발을 지원하고, C# 10의 새로운 기능을 도입했습니다. .NET 7은 성능 향상과 클라우드 네이티브 지원 강화에 중점을 두었으며, .NET 8은 Blazor United를 통해 웹 UI 개발을 개선하고, .NET MAUI를 통해 윈도우 데스크톱 애플리케이션 개발을 지원합니다. .NET 9는 C# 12의 새로운 기능을 도입하고, 플랫폼 전반의 성능과 안정성을 향상시켰습니다. &nbsp;</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 48%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>버전</th>
+<th>출시일</th>
+<th>지원 유형 (대략)</th>
+<th>주요 특징</th>
+<th>지원 상태</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>.NET 8</strong></td>
+<td>2023년 11월 예정 (계획)</td>
+<td>LTS</td>
+<td>- <strong>Native AOT</strong> 개선 <br> - 컨테이너 지원 확대 <br> - 지속적인 성능 및 언어 기능 개선</td>
+<td>미출시 (프리뷰 진행 중)</td>
+</tr>
+<tr class="even">
+<td><strong>.NET 7</strong></td>
+<td>2022년 11월 8일</td>
+<td>단기 지원(STS, 약 18개월)</td>
+<td>- <strong>Native AOT</strong> 기본 지원 <br> - 컨테이너 성능 최적화 <br> - <strong>C# 11</strong> 등 최신 언어 기능 <br> - 전반적 성능 개선</td>
+<td>지원 중</td>
+</tr>
+<tr class="odd">
+<td><strong>.NET 6</strong></td>
+<td>2021년 11월 8일</td>
+<td>장기 지원(LTS, 3년)</td>
+<td>- <strong>C# 10</strong>, <strong>F# 6</strong> 지원 <br> - <strong>Minimal APIs</strong> <br> - <strong>.NET MAUI</strong> <br> - 핫 리로드, 성능 개선 등</td>
+<td>지원 중</td>
+</tr>
+<tr class="even">
+<td><strong>.NET 5</strong></td>
+<td>2020년 11월 10일</td>
+<td>단기 지원(STS, 약 18개월)</td>
+<td>- <strong>단일 파일 배포</strong> <br> - 성능 및 컨테이너 개선 <br> - .NET Core와 .NET Framework의 통합 시도</td>
+<td>지원 종료 (2022년 5월 10일)</td>
+</tr>
+<tr class="odd">
+<td><strong>.NET Core 3.1</strong></td>
+<td>2019년 12월 3일</td>
+<td>장기 지원(LTS, 3년)</td>
+<td>- <strong>Windows 데스크톱</strong> (WinForms, WPF) 공식 지원 <br> - 전반적 성능 및 기능 개선</td>
+<td>지원 종료 (2022년 12월 13일)</td>
+</tr>
+<tr class="even">
+<td><strong>.NET Core 3.0</strong></td>
+<td>2019년 9월 23일</td>
+<td>단기 지원(STS, 약 18개월)</td>
+<td>- <strong>C# 8</strong> 지원 <br> - Blazor 서버 <br> - Worker Service 템플릿 <br> - 성능 개선</td>
+<td>지원 종료 (2020년 3월 3일)</td>
+</tr>
+<tr class="odd">
+<td><strong>.NET Core 2.2</strong></td>
+<td>2018년 12월 4일</td>
+<td>단기 지원(STS, 약 18개월)</td>
+<td>- ASP.NET Core 강화 <br> - 추가 성능 최적화</td>
+<td>지원 종료 (2019년 12월 23일)</td>
+</tr>
+<tr class="even">
+<td><strong>.NET Core 2.1</strong></td>
+<td>2018년 5월 30일</td>
+<td>장기 지원(LTS, 3년)</td>
+<td>- Razor 클래스 라이브러리 <br> - SignalR, gRPC 등 <br> - Entity Framework Core 개선</td>
+<td>지원 종료 (2021년 8월 21일)</td>
+</tr>
+<tr class="odd">
+<td><strong>.NET Core 2.0</strong></td>
+<td>2017년 8월 14일</td>
+<td>단기 지원(STS, 약 18개월)</td>
+<td>- 성능 개선 및 <strong>self-contained</strong> 배포 <br> - 새로운 <code>csproj</code> 구조</td>
+<td>지원 종료 (2018년 10월 1일)</td>
+</tr>
+<tr class="even">
+<td><strong>.NET Core 1.1</strong></td>
+<td>2016년 11월 16일</td>
+<td>단기 지원(STS, 약 18개월)</td>
+<td>- 신규 API 추가 <br> - 툴링 및 안정성 개선</td>
+<td>지원 종료 (2019년 6월 27일)</td>
+</tr>
+<tr class="odd">
+<td><strong>.NET Core 1.0</strong></td>
+<td>2016년 6월 27일</td>
+<td>장기 지원(LTS, 3년)</td>
+<td>- <strong>초기 크로스 플랫폼</strong> 지원 <br> - CLI 기반 개발 환경 도입</td>
+<td>지원 종료 (2019년 6월 27일)</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="clr" class="level3">
+<h3 class="anchored" data-anchor-id="clr">CLR</h3>
+<p>CLR(Common Language Runtime)은 .NET에서 프로그램이 실행될 때 동작을 관리해 주는 엔진(또는 환경)입니다. 마치 자동차 엔진이 자동차의 작동을 책임지듯, .NET 프로그램이 안전하고 일관된 방식으로 실행될 수 있도록 다양한 기능을 제공합니다.</p>
+<p>C# 같은 고수준 언어는 사람에게 읽기 쉽지만, 컴퓨터가 직접 이해하기엔 적합하지 않습니다. 그래서 중간 단계인 IL(Intermediate Language) 코드를 거친 뒤, CLR이 이를 실제 기계어(컴퓨터가 바로 실행할 수 있는 언어)로 바꿔주어야 프로그램이 동작합니다. 이렇게 하면 여러 운영 체제나 하드웨어에서도 공통된 방식으로 실행될 수 있습니다. 안전성과 편의성: 메모리 관리, 예외 처리와 같은 자잘하지만 중요한 부분들을 자동으로 처리해 줍니다. 덕분에 프로그래머는 주로 프로그램의 로직에만 집중할 수 있습니다.</p>
+<section id="clr의-주요-기능" class="level4">
+<h4 class="anchored" data-anchor-id="clr의-주요-기능">CLR의 주요 기능</h4>
+<p>가비지 수집(Garbage Collection), 가비지 수집(Garbage Collection, GC) 은 프로그램이 사용했던 메모리 중 더 이상 사용하지 않는 부분을 CLR이 알아서 정리해 주는 기능입니다.수동으로 메모리를 관리하려면 ’어디서 할당하고 어디서 해제해야 할까?’를 계속 생각해야 하는데, GC 덕분에 그 부담을 줄일 수 있습니다. 메모리를 잘못 정리하면 프로그램이 오작동하거나 멈출 수 있는데, GC가 자동으로 해 주므로 안전성이 높아집니다.</p>
+<p>JIT 컴파일(Just-In-Time Compilation), C# 코드 → IL 코드 → (실행 시점에) → 기계어 코드이 순서로 변환되는데, IL 코드를 최종적으로 기계어로 바꿔 주는 역할을 CLR이 맡습니다. 이 과정을 JIT(Just-In-Time) 컴파일 이라고 합니다. “Just-In-Time”이라는 이름대로, 미리 전부 변환해 두는 것이 아니라 실행에 필요한 순간에 해당 코드를 컴파일합니다. 이렇게 하면 시작 시점의 부담을 줄이고, 실행되는 부분만 빠르게 기계어로 변환할 수 있어 효율적입니다.</p>
+<p>어셈블리(Assembly) 로딩 및 관리, .NET에서 코드를 묶어 배포하는 단위를 어셈블리(Assembly) 라고 부릅니다. (보통 .dll 또는 .exe 확장자를 가집니다.) CLR은 필요한 어셈블리를 찾아서 프로그램이 잘 쓸 수 있도록 관리하고, 실행 도중에 보안이나 버전 충돌을 점검하기도 합니다.</p>
+<p>타입 시스템 관리, .NET에는 다양한 자료형(int, string, double 등)이 있는데, 이들을 한데 묶어 통합적으로 정의한 것을 Common Type System(CTS) 라고 합니다. CLR은 CTS를 기반으로 모든 언어(C#, VB.NET 등)에서 동일한 자료형을 다룰 수 있게 해 줍니다. 예를 들어, C#에서 int 타입은 VB.NET의 Integer 타입과 사실상 동일한 구조를 갖습니다. CLR이 내부적으로 같은 구조를 공유하도록 관리하기 때문이죠.</p>
+<p>예외 처리 및 디버깅 지원, 프로그램이 실행될 때 오류(예외)가 발생하면, CLR이 예외를 인식하고 이를 프로그램에게 알려줄 수 있도록 구조를 갖추고 있습니다. 또한 CLR은 디버깅(문제 해결을 위해 프로그램 내부를 조사하는 과정)과 프로파일링(프로그램의 성능을 측정하고 분석하는 기능)을 지원해 줍니다.</p>
+</section>
+<section id="clr의-이점" class="level4">
+<h4 class="anchored" data-anchor-id="clr의-이점">CLR의 이점</h4>
+<ul>
+<li><p>안전한 메모리 관리, GC 덕분에 메모리 누수를 일으키기 쉬운 실수를 줄일 수 있습니다.</p></li>
+<li><p>높은 호환성, IL 코드를 기반으로 JIT 컴파일되므로, 여러 플랫폼에서 동일한 프로그램을 실행할 수 있습니다(플랫폼 전용 .NET 런타임을 사용).</p></li>
+<li><p>개발 생산성, 예외 처리, 디버깅, 형식 안전성, 풍부한 라이브러리 지원 덕분에 개발 속도가 빨라지고 오류도 줄일 수 있습니다.</p></li>
+<li><p>다양한 언어 지원, CLR 덕분에 C#, VB.NET, F#, Python(.NET용 IronPython) 등 다양한 언어가 서로 어셈블리를 공유하면서 .NET 위에서 돌아갈 수 있습니다.</p></li>
+</ul>
+</section>
+</section>
+<section id="c과-.net의-관계" class="level3">
+<h3 class="anchored" data-anchor-id="c과-.net의-관계">C#과 .NET의 관계</h3>
+<p>C#은 프로그래밍 언어이고, .NET은 애플리케이션을 개발하고 실행하기 위한 플랫폼입니다. C#은 .NET 플랫폼에서 실행되는 여러 언어 중 하나이며, .NET은 C# 코드를 실행하는 데 필요한 환경을 제공합니다. C# 언어 자체는 변수, 데이터 유형, 연산자, 제어문, 함수 등 프로그래밍의 기본적인 구성 요소를 제공합니다 . 또한 객체 지향 프로그래밍, 제네릭, LINQ 등과 같은 고급 기능도 제공합니다. 반면 .NET은 CLR(Common Language Runtime), 기본 클래스 라이브러리(BCL), 그리고 다양한 API와 프레임워크를 제공합니다 . CLR은 C# 코드를 실행하는 런타임 환경이며, BCL은 문자열 처리, 파일 입출력, 네트워킹 등과 같은 일반적인 작업을 위한 클래스 라이브러리를 제공합니다. .NET은 또한 ASP.NET, Windows Forms, WPF, Xamarin 등과 같은 다양한 애플리케이션 프레임워크를 제공합니다.</p>
+<p>C#은 .NET 플랫폼에서 애플리케이션을 개발하기 위한 도구이며, .NET은 C# 코드를 실행하고 다양한 기능을 제공하는 환경입니다. 둘은 서로 협력하여 강력하고 다양한 애플리케이션을 개발할 수 있도록 지원합니다. - C# 기능: 변수 선언, 조건문 작성, 반복문 사용, 클래스 정의, 메서드 생성 등 - .NET 기능: 가비지 수집, 예외 처리, 파일 시스템 접근, 네트워크 통신, 데이터베이스 연결 등</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

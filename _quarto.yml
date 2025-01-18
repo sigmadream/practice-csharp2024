@@ -1,0 +1,40 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - "*.qmd"
+    - "*.ipynb"
+    - "!slides/"
+    - "!_ing"
+  preview:
+    port: 3000
+    browser: false    
+
+website:
+  title: "Practice C#"
+  description: "C#을 학습 결과를 정리해둔 저장소 입니다."
+  twitter-card: true
+  open-graph: true
+  page-navigation: true
+  reader-mode: true
+  navbar:
+    background: primary
+    search: true
+  sidebar:
+    style: "floating"
+
+metadata-files:
+  - sidebar.yml
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+  pdf:
+    documentclass: article
+    include-in-header:
+      text: |
+        \usepackage{kotex}
