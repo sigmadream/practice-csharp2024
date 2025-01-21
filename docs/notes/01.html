@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-01-19">
+<meta name="dcterms.date" content="2025-01-21">
 
-<title>C#의 역사와 특징 – Practice C#</title>
+<title>C#과 .NET – Practice C#</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,10 +104,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="C#의 역사와 특징 – Practice C#">
+<meta property="og:title" content="C#과 .NET – Practice C#">
 <meta property="og:description" content="“C#은 마이크로소프트가 2000년대 초반에 .NET 플랫폼과 함께 선보인 현대적인 객체 지향 언어로, 자바의 문법과 유사하면서도 강력한 기능 확장을 통해 생산성과 성능을 동시에 추구합니다. 초기에는 Windows 중심의 .NET 프레임워크 상에서만 사용되었으나, 점차 .NET Core와 .NET 5 이상으로 발전하며 크로스 플랫폼 환경에서 동등하게 실행될 수 있도록 확장되었습니다. 자동 메모리 관리(GC), 예외 처리, 강력한 타입 시스템 같은 기본 기능을 제공함으로써 안정적이고 유지보수하기 쉬운 코드를 작성할 수 있으며, 최근 들어서는 레코드, 패턴 매칭, 원시 문자열 리터럴, 정적 추상 멤버처럼 다양한 최신 문법을 도입해 개발자 경험을 지속적으로 개선하고 있습니다.”">
 <meta property="og:site_name" content="Practice C#">
-<meta name="twitter:title" content="C#의 역사와 특징 – Practice C#">
+<meta name="twitter:title" content="C#과 .NET – Practice C#">
 <meta name="twitter:description" content="“C#은 마이크로소프트가 2000년대 초반에 .NET 플랫폼과 함께 선보인 현대적인 객체 지향 언어로, 자바의 문법과 유사하면서도 강력한 기능 확장을 통해 생산성과 성능을 동시에 추구합니다. 초기에는 Windows 중심의 .NET 프레임워크 상에서만 사용되었으나, 점차 .NET Core와 .NET 5 이상으로 발전하며 크로스 플랫폼 환경에서 동등하게 실행될 수 있도록 확장되었습니다. 자동 메모리 관리(GC), 예외 처리, 강력한 타입 시스템 같은 기본 기능을 제공함으로써 안정적이고 유지보수하기 쉬운 코드를 작성할 수 있으며, 최근 들어서는 레코드, 패턴 매칭, 원시 문자열 리터럴, 정적 추상 멤버처럼 다양한 최신 문법을 도입해 개발자 경험을 지속적으로 개선하고 있습니다.”">
 <meta name="twitter:card" content="summary">
 </head>
@@ -138,7 +138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/01.html">C#의 역사와 특징</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/01.html">C#과 .NET</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -153,7 +153,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notes/01.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">C#의 역사와 특징</span></a>
+ <span class="menu-text">C#과 .NET</span></a>
   </div>
 </li>
     </ul>
@@ -166,19 +166,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#c의-역사와-특징" id="toc-c의-역사와-특징" class="nav-link active" data-scroll-target="#c의-역사와-특징"><code>C#</code>의 역사와 특징</a>
+  <li><a href="#c" id="toc-c" class="nav-link active" data-scroll-target="#c"><code>C#</code></a>
   <ul class="collapse">
-  <li><a href="#c의-변경사항" id="toc-c의-변경사항" class="nav-link" data-scroll-target="#c의-변경사항"><code>C#</code>의 변경사항</a></li>
+  <li><a href="#c-10의-주요-변경사항" id="toc-c-10의-주요-변경사항" class="nav-link" data-scroll-target="#c-10의-주요-변경사항"><code>C#</code> 10의 주요 변경사항</a></li>
+  <li><a href="#c-11의-주요-변경사항" id="toc-c-11의-주요-변경사항" class="nav-link" data-scroll-target="#c-11의-주요-변경사항">C# 11의 주요 변경사항</a></li>
+  <li><a href="#c-12의-주요-변경사항" id="toc-c-12의-주요-변경사항" class="nav-link" data-scroll-target="#c-12의-주요-변경사항">C# 12의 주요 변경사항</a></li>
   </ul></li>
   <li><a href="#net" id="toc-net" class="nav-link" data-scroll-target="#net"><code>.NET</code></a>
   <ul class="collapse">
-  <li><a href="#net의-구성-요소" id="toc-net의-구성-요소" class="nav-link" data-scroll-target="#net의-구성-요소">.NET의 구성 요소</a></li>
   <li><a href="#net의-주요-특징" id="toc-net의-주요-특징" class="nav-link" data-scroll-target="#net의-주요-특징">.NET의 주요 특징</a></li>
   <li><a href="#net의-장점" id="toc-net의-장점" class="nav-link" data-scroll-target="#net의-장점">.NET의 장점</a></li>
   <li><a href="#net의-변화-과거와-현재" id="toc-net의-변화-과거와-현재" class="nav-link" data-scroll-target="#net의-변화-과거와-현재">.NET의 변화: 과거와 현재</a></li>
   <li><a href="#clr" id="toc-clr" class="nav-link" data-scroll-target="#clr">CLR</a></li>
-  <li><a href="#c과-.net의-관계" id="toc-c과-.net의-관계" class="nav-link" data-scroll-target="#c과-.net의-관계">C#과 .NET의 관계</a></li>
+  <li><a href="#clr의-주요-기능" id="toc-clr의-주요-기능" class="nav-link" data-scroll-target="#clr의-주요-기능">CLR의 주요 기능</a></li>
   </ul></li>
+  <li><a href="#c과.net의-관계" id="toc-c과.net의-관계" class="nav-link" data-scroll-target="#c과.net의-관계"><code>C#</code>과<code>.NET</code>의 관계</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="01.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -187,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">C#의 역사와 특징</h1>
+<h1 class="title">C#과 .NET</h1>
 <p class="subtitle lead">C#, .NET and CLR</p>
   <div class="quarto-categories">
     <div class="quarto-category">C#</div>
@@ -205,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 19, 2025</p>
+      <p class="date">January 21, 2025</p>
     </div>
   </div>
   
@@ -223,17 +225,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="c의-역사와-특징" class="level2">
-<h2 class="anchored" data-anchor-id="c의-역사와-특징"><code>C#</code>의 역사와 특징</h2>
-<p>C#은 Microsoft에서 1999년에 개발한 프로그래밍 언어입니다. 현대적이고 객체 지향적인 언어로, .NET 프레임워크에서 실행되도록 설계되었습니다. C#의 문법은 C++ 및 Java와 유사하지만 Delphi 및 Visual Basic과 같은 다른 언어의 기능도 포함합니다. C#은 처음 출시된 이후 여러 번의 개정을 거쳐 각 릴리스마다 새로운 기능을 추가했습니다. 오늘날 C#은 Windows 데스크톱 애플리케이션, 웹 애플리케이션, 게임 및 모바일 앱 개발에 널리 사용됩니다. &nbsp;</p>
-<section id="c의-변경사항" class="level3">
-<h3 class="anchored" data-anchor-id="c의-변경사항"><code>C#</code>의 변경사항</h3>
-<section id="c-10의-주요-변경사항" class="level4">
-<h4 class="anchored" data-anchor-id="c-10의-주요-변경사항">C# 10의 주요 변경사항</h4>
+<section id="c" class="level2">
+<h2 class="anchored" data-anchor-id="c"><code>C#</code></h2>
+<p><code>C#</code>은 Microsoft에서 1999년에 개발한 프로그래밍 언어입니다. 현대적이고 객체 지향적인 언어로, <code>.NET</code> 프레임워크에서 실행되도록 설계되었습니다. C#의 문법은 C++ 및 Java와 유사합니다. C#은 출시된 이후 여러 번의 개정을 거쳐 새로운 기능을 추가했습니다. 오늘날 C#은 Windows 데스크톱 애플리케이션, 웹 애플리케이션, 게임 및 모바일 앱 개발에 활용할 수 있습니다.</p>
+<section id="c-10의-주요-변경사항" class="level3">
+<h3 class="anchored" data-anchor-id="c-10의-주요-변경사항"><code>C#</code> 10의 주요 변경사항</h3>
 <ul>
 <li>파일 범위 네임스페이스(File-scoped namespace), 기존에는 네임스페이스를 감싸는 중괄호 <code>{}</code> 를 사용해야 했습니다. C# 10에서는 파일 최상단에 한 줄로 선언이 가능합니다. 코드 중첩이 줄어들어 가독성과 유지보수성이 향상됩니다.</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 기존 방식</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// after</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> MyApp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> Program</span>
@@ -242,7 +242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">// C# 10 파일 범위 네임스페이스</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">// before</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> MyApp<span class="op">;</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Program</span>
@@ -285,10 +285,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">string</span> Message <span class="op">=</span> $<span class="st">"{Greeting}, World!"</span><span class="op">;</span> </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">// C# 9까지는 불가, C# 10에서는 가능</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="c-11의-주요-변경사항" class="level4">
-<h4 class="anchored" data-anchor-id="c-11의-주요-변경사항">C# 11의 주요 변경사항</h4>
+<section id="c-11의-주요-변경사항" class="level3">
+<h3 class="anchored" data-anchor-id="c-11의-주요-변경사항">C# 11의 주요 변경사항</h3>
 <ul>
-<li>원시 문자열 리터럴(Raw string literals), 문자열을 <code>"""</code>로 둘러싸, 특수문자나 줄바꿈을 이스케이프 없이 그대로 표현할 수 있습니다. JSON, XML, Markdown 등의 멀티라인 문자열을 가독성 좋게 표현할 수 있습니다.</li>
+<li>원시 문자열 리터럴(Raw string literals), 문자열을 <code>"""</code>로 둘러싸, 특수문자나 줄바꿈을 이스케이프 없이 그대로 표현할 수 있습니다. <code>JSON</code>, <code>XML</code>, <code>Markdown</code> 등의 멀티라인 문자열을 가독성 좋게 표현할 수 있습니다.</li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> raw <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    이것은 <span class="st">"원시"</span> 문자열입니다<span class="op">.</span></span>
@@ -296,12 +296,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">""";</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>raw<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
-<li>UTF-8 문자열 리터럴, 문자열 리터럴 뒤에 u8 접미사를 붙여 UTF-8 인코딩된 바이트 배열을 직접 생성할 수 있습니다. 별도의 인코딩 과정 없이 UTF-8 바이트 배열을 얻을 수 있어 성능상 이점이 있습니다.</li>
+<li>UTF-8 문자열 리터럴(UTF-8 string literals), 문자열 리터럴 뒤에 u8 접미사를 붙여 UTF-8 인코딩된 바이트 배열을 직접 생성할 수 있습니다. 별도의 인코딩 과정 없이 UTF-8 바이트 배열을 얻을 수 있어 성능상 이점이 있습니다.</li>
 </ul>
 <div class="sourceCode" id="cb7"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ReadOnlySpan<span class="op">&lt;</span><span class="dt">byte</span><span class="op">&gt;</span> utf8Bytes <span class="op">=</span> <span class="st">"안녕하세요"</span>u8<span class="op">;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>utf8Bytes<span class="op">.</span><span class="fu">Length</span><span class="op">);</span>  <span class="co">// UTF-8로 인코딩된 길이</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
-<li>required 멤버, 객체나 레코드가 생성될 때 반드시 초기화해야 하는 필드를 지정할 수 있습니다. 중요한 필드의 누락을 컴파일 시간에 미리 방지할 수 있습니다.</li>
+<li>required, 객체나 레코드가 생성될 때 반드시 초기화해야 하는 필드를 지정할 수 있습니다. 중요한 필드의 누락을 컴파일 시간에 미리 방지할 수 있습니다.</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Person</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
@@ -341,8 +341,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 이 파일 바깥에서는 접근 불가</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="c-12의-주요-변경사항" class="level4">
-<h4 class="anchored" data-anchor-id="c-12의-주요-변경사항">C# 12의 주요 변경사항</h4>
+<section id="c-12의-주요-변경사항" class="level3">
+<h3 class="anchored" data-anchor-id="c-12의-주요-변경사항">C# 12의 주요 변경사항</h3>
 <ul>
 <li>클래스/구조체용 기본 생성자 (Primary constructors for non-record types), 레코드가 아닌 일반 클래스나 구조체에서도 생성자 매개변수를 클래스 선언부에 직접 선언할 수 있습니다. 레코드에서 사용하던 간결한 생성자 문법을 일반 클래스/구조체에도 적용 가능해집니다.</li>
 </ul>
@@ -368,19 +368,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="fu">add</span><span class="op">(</span><span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">));</span> <span class="co">// 15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-</section>
 <section id="net" class="level2">
 <h2 class="anchored" data-anchor-id="net"><code>.NET</code></h2>
-<p>.NET은 Microsoft에서 개발한 소프트웨어 개발 플랫폼입니다. 2002년 처음 출시된 이후 윈도우 애플리케이션 개발을 위한 강력한 도구로 자리매김했으며, 현재는 웹, 모바일, 게임, IoT, AI 등 다양한 분야에서 활용되고 있습니다. .NET은 개발자가 다양한 프로그래밍 언어를 사용하여 애플리케이션을 구축할 수 있도록 지원하며, 풍부한 라이브러리와 도구를 제공하여 개발 생산성을 향상시킵니다.</p>
-<section id="net의-구성-요소" class="level3">
-<h3 class="anchored" data-anchor-id="net의-구성-요소">.NET의 구성 요소</h3>
-<ul>
-<li>.NET Core, 크로스 플랫폼 애플리케이션 개발을 위한 프레임워크, 윈도우, macOS, Linux 등 다양한 운영체제에서 실행 가능</li>
-<li>.NET Framework, 윈도우 데스크톱 및 서버 애플리케이션 개발을 위한 프레임워크</li>
-<li>.NET MAUI, 모바일 및 데스크톱 애플리케이션을 위한 크로스 플랫폼 프레임워크, 단일 코드 베이스로 Android, iOS, macOS, Windows 애플리케이션을 개발할 수 있음</li>
-<li>.NET SDK, .NET 애플리케이션을 빌드하고 실행하는 데 필요한 도구 및 라이브러리를 포함, 컴파일러, 런타임, 라이브러리 및 명령줄 도구가 포함</li>
-</ul>
-</section>
+<p><code>.NET</code>은 Microsoft에서 개발한 소프트웨어 개발 플랫폼입니다. 2002년 처음 출시된 이후 윈도우 애플리케이션 개발을 위한 강력한 도구로 자리매김했으며, 현재는 웹, 모바일, 게임, IoT, AI 등 다양한 분야에서 활용되고 있습니다. .NET은 개발자가 다양한 프로그래밍 언어를 사용하여 애플리케이션을 구축할 수 있도록 지원하며, 풍부한 라이브러리와 도구를 제공하여 개발 생산성을 향상시킵니다. 은 아래와 같습니다.</p>
 <section id="net의-주요-특징" class="level3">
 <h3 class="anchored" data-anchor-id="net의-주요-특징">.NET의 주요 특징</h3>
 <ul>
@@ -388,7 +378,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>크로스 플랫폼, .NET Core 이후 버전부터는 윈도우, macOS, Linux 등 다양한 운영체제에서 실행 가능</li>
 <li>풍부한 라이브러리: 다양한 작업을 위한 풍부한 클래스 라이브러리를 제공</li>
 <li>뛰어난 성능: Just-In-Time (JIT) 컴파일을 통해 높은 성능을 제공</li>
-<li>강력한 보안: 코드 액세스 보안 및 역할 기반 보안을 제공</li>
 </ul>
 </section>
 <section id="net의-장점" class="level3">
@@ -398,7 +387,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>유지 보수 용이성, 객체 지향 프로그래밍 및 모듈식 설계를 통해 코드를 쉽게 유지 보수할 수 있음</li>
 <li>안정성, 강력한 형식 검사 및 예외 처리 메커니즘을 통해 안정적인 애플리케이션을 개발할 수 있음</li>
 <li>확장성, .NET 애플리케이션은 높은 확장성을 제공하여 대규모 시스템 구축에 적합</li>
-<li>보안: .NET 플랫폼은 강력한 보안 기능을 제공하여 안전한 애플리케이션을 개발할 수 있음</li>
 </ul>
 </section>
 <section id="net의-변화-과거와-현재" class="level3">
@@ -516,16 +504,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="clr" class="level3">
 <h3 class="anchored" data-anchor-id="clr">CLR</h3>
-<p>CLR(Common Language Runtime)은 .NET에서 프로그램이 실행될 때 동작을 관리해 주는 엔진(또는 환경)입니다. 마치 자동차 엔진이 자동차의 작동을 책임지듯, .NET 프로그램이 안전하고 일관된 방식으로 실행될 수 있도록 다양한 기능을 제공합니다.</p>
-<p>C# 같은 고수준 언어는 사람에게 읽기 쉽지만, 컴퓨터가 직접 이해하기엔 적합하지 않습니다. 그래서 중간 단계인 IL(Intermediate Language) 코드를 거친 뒤, CLR이 이를 실제 기계어(컴퓨터가 바로 실행할 수 있는 언어)로 바꿔주어야 프로그램이 동작합니다. 이렇게 하면 여러 운영 체제나 하드웨어에서도 공통된 방식으로 실행될 수 있습니다. 안전성과 편의성: 메모리 관리, 예외 처리와 같은 자잘하지만 중요한 부분들을 자동으로 처리해 줍니다. 덕분에 프로그래머는 주로 프로그램의 로직에만 집중할 수 있습니다.</p>
-<section id="clr의-주요-기능" class="level4">
-<h4 class="anchored" data-anchor-id="clr의-주요-기능">CLR의 주요 기능</h4>
-<p>가비지 수집(Garbage Collection), 가비지 수집(Garbage Collection, GC) 은 프로그램이 사용했던 메모리 중 더 이상 사용하지 않는 부분을 CLR이 알아서 정리해 주는 기능입니다.수동으로 메모리를 관리하려면 ’어디서 할당하고 어디서 해제해야 할까?’를 계속 생각해야 하는데, GC 덕분에 그 부담을 줄일 수 있습니다. 메모리를 잘못 정리하면 프로그램이 오작동하거나 멈출 수 있는데, GC가 자동으로 해 주므로 안전성이 높아집니다.</p>
-<p>JIT 컴파일(Just-In-Time Compilation), C# 코드 → IL 코드 → (실행 시점에) → 기계어 코드이 순서로 변환되는데, IL 코드를 최종적으로 기계어로 바꿔 주는 역할을 CLR이 맡습니다. 이 과정을 JIT(Just-In-Time) 컴파일 이라고 합니다. “Just-In-Time”이라는 이름대로, 미리 전부 변환해 두는 것이 아니라 실행에 필요한 순간에 해당 코드를 컴파일합니다. 이렇게 하면 시작 시점의 부담을 줄이고, 실행되는 부분만 빠르게 기계어로 변환할 수 있어 효율적입니다.</p>
-<p>어셈블리(Assembly) 로딩 및 관리, .NET에서 코드를 묶어 배포하는 단위를 어셈블리(Assembly) 라고 부릅니다. (보통 .dll 또는 .exe 확장자를 가집니다.) CLR은 필요한 어셈블리를 찾아서 프로그램이 잘 쓸 수 있도록 관리하고, 실행 도중에 보안이나 버전 충돌을 점검하기도 합니다.</p>
-<p>타입 시스템 관리, .NET에는 다양한 자료형(int, string, double 등)이 있는데, 이들을 한데 묶어 통합적으로 정의한 것을 Common Type System(CTS) 라고 합니다. CLR은 CTS를 기반으로 모든 언어(C#, VB.NET 등)에서 동일한 자료형을 다룰 수 있게 해 줍니다. 예를 들어, C#에서 int 타입은 VB.NET의 Integer 타입과 사실상 동일한 구조를 갖습니다. CLR이 내부적으로 같은 구조를 공유하도록 관리하기 때문이죠.</p>
-<p>예외 처리 및 디버깅 지원, 프로그램이 실행될 때 오류(예외)가 발생하면, CLR이 예외를 인식하고 이를 프로그램에게 알려줄 수 있도록 구조를 갖추고 있습니다. 또한 CLR은 디버깅(문제 해결을 위해 프로그램 내부를 조사하는 과정)과 프로파일링(프로그램의 성능을 측정하고 분석하는 기능)을 지원해 줍니다.</p>
+<p>CLR(Common Language Runtime)은 .NET에서 프로그램이 실행될 때 동작을 관리해 주는 엔진(또는 환경)입니다. 마치 자동차 엔진이 자동차의 작동을 책임지듯, .NET 프로그램이 안전하고 일관된 방식으로 실행될 수 있도록 다양한 기능을 제공합니다. C# 같은 고수준 언어는 사람에게 읽기 쉽지만, 컴퓨터가 직접 이해하기엔 적합하지 않습니다. 그래서 중간 단계인 IL(Intermediate Language) 코드를 거친 뒤, CLR이 이를 실제 기계어(컴퓨터가 바로 실행할 수 있는 언어)로 바꿔주어야 프로그램이 동작합니다. 이렇게 하면 여러 운영 체제나 하드웨어에서도 공통된 방식으로 실행될 수 있습니다.</p>
+<p>안전성과 편의성: 메모리 관리, 예외 처리와 같은 자잘하지만 중요한 부분들을 자동으로 처리해 줍니다. 덕분에 프로그래머는 주로 프로그램의 로직에만 집중할 수 있습니다.</p>
 </section>
+<section id="clr의-주요-기능" class="level3">
+<h3 class="anchored" data-anchor-id="clr의-주요-기능">CLR의 주요 기능</h3>
+<ul>
+<li><p>가비지 수집(Garbage Collection), 가비지 수집(Garbage Collection, GC) 은 프로그램이 사용했던 메모리 중 더 이상 사용하지 않는 부분을 CLR이 알아서 정리해 주는 기능입니다.수동으로 메모리를 관리하려면 ’어디서 할당하고 어디서 해제해야 할까?’를 계속 생각해야 하는데, GC 덕분에 그 부담을 줄일 수 있습니다. 메모리를 잘못 정리하면 프로그램이 오작동하거나 멈출 수 있는데, GC가 자동으로 해 주므로 안전성이 높아집니다.</p></li>
+<li><p>JIT 컴파일(Just-In-Time Compilation), C# 코드 → IL 코드 → (실행 시점에) → 기계어 코드이 순서로 변환되는데, IL 코드를 최종적으로 기계어로 바꿔 주는 역할을 CLR이 맡습니다. 이 과정을 JIT(Just-In-Time) 컴파일 이라고 합니다. “Just-In-Time”이라는 이름대로, 미리 전부 변환해 두는 것이 아니라 실행에 필요한 순간에 해당 코드를 컴파일합니다. 이렇게 하면 시작 시점의 부담을 줄이고, 실행되는 부분만 빠르게 기계어로 변환할 수 있어 효율적입니다.</p></li>
+<li><p>어셈블리(Assembly) 로딩 및 관리, .NET에서 코드를 묶어 배포하는 단위를 어셈블리(Assembly) 라고 부릅니다. (보통 .dll 또는 .exe 확장자를 가집니다.) CLR은 필요한 어셈블리를 찾아서 프로그램이 잘 쓸 수 있도록 관리하고, 실행 도중에 보안이나 버전 충돌을 점검하기도 합니다.</p></li>
+<li><p>타입 시스템 관리, .NET에는 다양한 자료형(int, string, double 등)이 있는데, 이들을 한데 묶어 통합적으로 정의한 것을 Common Type System(CTS) 라고 합니다. CLR은 CTS를 기반으로 모든 언어(C#, VB.NET 등)에서 동일한 자료형을 다룰 수 있게 해 줍니다. 예를 들어, C#에서 int 타입은 VB.NET의 Integer 타입과 사실상 동일한 구조를 갖습니다. CLR이 내부적으로 같은 구조를 공유하도록 관리하기 때문이죠.</p></li>
+<li><p>예외 처리 및 디버깅 지원, 프로그램이 실행될 때 오류(예외)가 발생하면, CLR이 예외를 인식하고 이를 프로그램에게 알려줄 수 있도록 구조를 갖추고 있습니다. 또한 CLR은 디버깅(문제 해결을 위해 프로그램 내부를 조사하는 과정)과 프로파일링(프로그램의 성능을 측정하고 분석하는 기능)을 지원해 줍니다.</p></li>
+</ul>
 <section id="clr의-이점" class="level4">
 <h4 class="anchored" data-anchor-id="clr의-이점">CLR의 이점</h4>
 <ul>
@@ -536,13 +526,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 </section>
-<section id="c과-.net의-관계" class="level3">
-<h3 class="anchored" data-anchor-id="c과-.net의-관계">C#과 .NET의 관계</h3>
-<p>C#은 프로그래밍 언어이고, .NET은 애플리케이션을 개발하고 실행하기 위한 플랫폼입니다. C#은 .NET 플랫폼에서 실행되는 여러 언어 중 하나이며, .NET은 C# 코드를 실행하는 데 필요한 환경을 제공합니다. C# 언어 자체는 변수, 데이터 유형, 연산자, 제어문, 함수 등 프로그래밍의 기본적인 구성 요소를 제공합니다 . 또한 객체 지향 프로그래밍, 제네릭, LINQ 등과 같은 고급 기능도 제공합니다. 반면 .NET은 CLR(Common Language Runtime), 기본 클래스 라이브러리(BCL), 그리고 다양한 API와 프레임워크를 제공합니다 . CLR은 C# 코드를 실행하는 런타임 환경이며, BCL은 문자열 처리, 파일 입출력, 네트워킹 등과 같은 일반적인 작업을 위한 클래스 라이브러리를 제공합니다. .NET은 또한 ASP.NET, Windows Forms, WPF, Xamarin 등과 같은 다양한 애플리케이션 프레임워크를 제공합니다.</p>
-<p>C#은 .NET 플랫폼에서 애플리케이션을 개발하기 위한 도구이며, .NET은 C# 코드를 실행하고 다양한 기능을 제공하는 환경입니다. 둘은 서로 협력하여 강력하고 다양한 애플리케이션을 개발할 수 있도록 지원합니다. - C# 기능: 변수 선언, 조건문 작성, 반복문 사용, 클래스 정의, 메서드 생성 등 - .NET 기능: 가비지 수집, 예외 처리, 파일 시스템 접근, 네트워크 통신, 데이터베이스 연결 등</p>
-
-
 </section>
+<section id="c과.net의-관계" class="level2">
+<h2 class="anchored" data-anchor-id="c과.net의-관계"><code>C#</code>과<code>.NET</code>의 관계</h2>
+<p>C#은 프로그래밍 언어이고, .NET은 애플리케이션을 개발하고 실행하기 위한 플랫폼입니다. C#은 .NET 플랫폼에서 실행되는 여러 언어 중 하나이며, .NET은 C# 코드를 실행하는 데 필요한 환경을 제공합니다. C# 언어 자체는 변수, 데이터 유형, 연산자, 제어문, 함수 등 프로그래밍의 기본적인 구성 요소를 제공합니다 . 또한 객체 지향 프로그래밍, 제네릭, LINQ 등과 같은 고급 기능도 제공합니다. 반면 .NET은 CLR(Common Language Runtime), 기본 클래스 라이브러리(BCL), 그리고 다양한 API와 프레임워크를 제공합니다 . CLR은 C# 코드를 실행하는 런타임 환경이며, BCL은 문자열 처리, 파일 입출력, 네트워킹 등과 같은 일반적인 작업을 위한 클래스 라이브러리를 제공합니다. .NET은 또한 ASP.NET, Windows Forms, WPF, Xamarin 등과 같은 다양한 애플리케이션 프레임워크를 제공합니다. C#은 .NET 플랫폼에서 애플리케이션을 개발하기 위한 도구이며, .NET은 C# 코드를 실행하고 다양한 기능을 제공하는 환경입니다. 둘은 서로 협력하여 강력하고 다양한 애플리케이션을 개발할 수 있도록 지원합니다.</p>
+
+
 </section>
 
 </main> <!-- /main -->
