@@ -1,0 +1,771 @@
+---
+title: "Value, Ref, Types"
+subtitle: "Ref is not Ref"
+documenttype: Handout
+abstract: |
+  ""
+categories:
+  - Ref
+  - Value
+  - Span
+  - Ref Struct
+version: [v.20250130]
+date: last-modified
+---
+
+## `C#`의 형식(types)
+
+C#은 강력한 형식 시스템을 가진 언어로, 데이터의 종류를 명확하게 구분하여 안정적인 프로그래밍을 지원합니다. C#의 모든 형식은 값 형식(Value Types) 또는 참조 형식(Reference Types) 중 하나에 속합니다.
+
+### 값 형식(value types)
+
+값 형식은 데이터를 직접 저장하는 형식을 말합니다. 변수에 값을 할당하면 데이터의 복사본이 생성되어 저장됩니다. 값 형식의 데이터는 메모리의 스택(Stack) 영역에 저장, 스택은 비교적 빠르고 크기가 제한된 메모리 영역, 함수 호출과 반환에 따라 메모리가 자동으로 관리됩니다.
+
+```csharp
+int a = 10;
+int b = a; // b에 a 값이 '복사'되어 들어감, a가 10에서 다른 값으로 바뀌더라도 b에는 영향 없음
+```
+
+- 숫자 데이터 형식:
+  - 정수 계열: `sbyte`, `byte`, `short`, `ushort`, `int`, `uint`, `long`, `ulong`
+  - 실수 계열: `float`, `double`, `decimal`
+- 문자 형식: `char` (유니코드 문자 하나)
+- 논리 형식: `bool` (true 또는 false)
+- 열거 형식 (enum): 명명된 상수 집합을 정의하는 형식.
+- 구조체 (struct): 사용자 정의 값 형식. 여러 개의 값 형식을 묶어서 하나의 복합적인 데이터 형식을 만들 수 있습니다.
+
+### 참조 형식(reference types)
+
+참조 형식은 데이터가 저장된 메모리 주소를 저장하는 형식을 말합니다. 변수에 값을 할당하면 데이터의 주소가 복사되어 저장됩니다. 따라서 여러 변수가 동일한 데이터를 참조할 수 있습니다. 참조 형식의 데이터는 메모리의 힙(Heap) 영역에 저장, 힙은 스택보다 크기가 크지만, 메모리 관리를 프로그래머가 어느 정도 신경 써야합니다(가비지 컬렉터가 자동적으로 관리).
+
+```csharp
+string s1 = "Hello";
+string s2 = s1; 
+// s2에는 s1과 동일한 "Hello"라는 문자열 객체의 참조가 복사됨, s1이나 s2 중 하나를 변경하면,(string은 불변(Immutable) 특성을 갖지만)
+// 새로운 문자열 객체가 생성되는 등의 과정에서 참조가 달라질 수 있음
+```
+
+- 문자열 형식: `string` (유니코드 문자열)
+- object 형식: 모든 형식의 조상 형식. 모든 값 형식과 참조 형식은 `object` 형식으로 암시적 변환이 가능
+- 클래스 (class): 사용자 정의 참조 형식. 객체 지향 프로그래밍의 핵심 요소
+- 인터페이스 (interface): 메서드 시그니처의 집합을 정의하는 형식
+- 배열 (array): 동일한 형식의 데이터들을 연속적으로 저장하는 형식
+- 델리게이트 (delegate): 메서드를 참조하는 형식
+
+### 몇가지 예제
+
+#### 값과 참조
+
+```csharp
+using System;
+
+public struct MyStruct
+{
+    public int Value;
+}
+
+public class MyClass
+{
+    public int Value;
+}
+
+class Program
+{
+    static void Main()
+    {
+        // 1. 구조체 (값 형식)
+        MyStruct s1 = new MyStruct { Value = 10 };
+        MyStruct s2 = s1;   // 값 복사
+        s2.Value = 20;
+
+        Console.WriteLine($"s1.Value = {s1.Value}"); // 10
+        Console.WriteLine($"s2.Value = {s2.Value}"); // 20
+
+        // 2. 클래스 (참조 형식)
+        MyClass c1 = new MyClass { Value = 10 };
+        MyClass c2 = c1;    // 참조 복사
+        c2.Value = 20;
+
+        Console.WriteLine($"c1.Value = {c1.Value}"); // 20
+        Console.WriteLine($"c2.Value = {c2.Value}"); // 20
+    }
+}
+```
+
+"값 형식 안에도 참조가 들어갈 수 있다"는 점을 직접 실험해 보면, 단순히 "값 형식=스택, 참조 형식=힙"이라고 끝나는 게 아니라는 것을 확인 할 수 있습니다. PersonStruct는 분명히 값 형식이지만, 내부에 string(참조 형식)을 가지고 있으므로 1) 문자열 자체는 힙에 저장, 2) 구조체 안의 Name 필드는 문자열 객체의 주소를 값으로 갖고 있는 형태입니다.
+
+```csharp
+public struct PersonStruct
+{
+    public string Name; // 참조 형식 필드
+    public int Age;
+}
+```
+
+#### More!
+
+- 인라인(Inline) 할당, Escape Analysis
+  - C#/.NET이 내부적으로 Escape Analysis(값이 스택 범위를 벗어나는지 분석)를 해서 구조체를 최적화하거나, 때로는 힙 대신 스택에 할당할 수도 있음(C# 7 이상, 일부 시나리오)
+  - 이런 최적화는 코드 레벨에서 바로 체감하기 어렵지만, 런타임의 최적화 원리를 이해해두면 좋음
+
+- 디버거에서 변수 관찰
+  - Visual Studio 또는 VS Code 디버깅 기능 사용
+  - 브레이크포인트를 걸고, 지역 변수와 힙에 있는 객체(참조 형식)를 "Autos"나 "Locals" 창에서 확인
+  - 스택 프레임을 확인하며, 값 형식이 어떻게 스택에 놓이는지, 참조 형식은 어디에 놓이는지를 눈으로 보면서 익힘
+  - 코드를 디버그 모드로 실행하여 s1, s2, c1, c2 변수가 가리키는 대상을 확인
+    - s2는 새로운 값(20)을 가지지만, s1은 여전히 10을 유지하고 있음을 확인할 수 있음(값 복사)
+    - c2 값을 변경하면, c1도 바뀌는 것을 볼 수 있음(동일 객체 참조)
+
+- IL(중간 언어) 코드 확인
+  - `C#` 코드는 `.NET`의 중간 언어(`IL`, `Intermediate Language`)로 컴파일됨
+  - `IL` 디컴파일러(예: `ILSpy`, `dotPeek`)를 사용해 대입 시 박싱/언박싱이 일어나는지, 값 복사가 어떻게 구현되는지 등을 확인할 수 있음
+  - `IL` 코드를 보면 `stloc`, `ldloc` 등 명령어로 스택에 변수가 어떻게 로드/저장되는지 이해가 가능해짐
+
+- 메모리 분석 도구 사용
+  - `dotMemory`, Visual Studio 진단 도구(Diagnostic Tools) 등 메모리 분석 도구를 활용
+  - 프로그램 실행 중 힙에 어떤 객체가 얼마만큼 올라가 있고, GC가 언제 일어나는지 추적할 수 있음
+  - 값 형식은 힙에 직접 올라가지 않지만(참조 형식의 필드로 쓰인 경우는 내부적으로 참조로 연결됨), 참조 형식이 힙에서 어떻게 배치되는지 실제 현황을 확인 가능
+
+- `Span<T>`, `ref struct` 등
+  - 최신 C# 문법에서는 스택만을 대상으로 하는 구조(`ref struct`)가 등장(`Span<T>`, `ReadOnlySpan<T>` 등)
+  - 이런 타입들은 스택에만 존재해야 하며, 힙에 들어갈 수 없도록 CLR/C# 컴파일러가 제약을 걸어놓음
+
+### `Span<T>`와 `ref struct`
+
+`Span<T>`와 `ref struct`는 성능과 안전성을 높이기 위해 도입된 중요한 기능들입니다. 이들은 특히 메모리 관리 및 데이터 처리 방식에서 큰 영향을 줍니다.
+
+#### `Span<T>`: 메모리 연속성을 이용한 효율적인 데이터 접근
+
+C#에서 배열이나 문자열과 같은 데이터는 메모리상에서 연속적으로 저장되는 경향이 있습니다. 기존에는 이 데이터를 처리하기 위해 배열의 일부를 복사하거나, 데이터를 수정하기 위해 새로운 배열을 할당해야 했습니다. 이러한 작업은 불필요한 메모리 할당과 복사를 초래하여 성능 저하를 유발했습니다. `Span<T>`는 메모리 연속적인 영역에 대한 뷰(View)를 제공합니다. 즉, 실제 데이터를 복사하지 않고도 연속적인 메모리 영역의 일부를 참조하고 조작할 수 있게 해줍니다.
+- 주요 이점
+  - Zero-copy: 메모리 복사 없이 데이터를 참조하므로 성능이 크게 향상됩니다.
+  - 다양한 메모리 원본 지원: 배열, 문자열, `stackalloc`, 네이티브 메모리 등 다양한 메모리 원본에서 `Span<T>`를 생성할 수 있습니다.
+  - 안전한 접근: `Span<T>`는 범위 검사를 수행하여 안전하지 않은 메모리 접근을 방지합니다.
+- 사용 예시:
+  - 문자열의 일부를 파싱하거나 특정 부분을 수정하는 경우
+  - 네트워크나 파일에서 받은 데이터를 처리하는 경우
+  - 고성능 수학 라이브러리에서 배열을 조작하는 경우
+
+#### `ref struct`: 스택 할당 및 구조체의 안전성 보장
+
+C#의 구조체는 값 형식으로, 기본적으로 스택에 할당됩니다. 하지만 구조체 내에 참조 형식이 포함되어 있거나, 특정 경우에는 힙에 할당될 수 있습니다. 이러한 경우, 구조체의 생명주기가 복잡해지고 GC(Garbage Collector)의 부담을 증가시킬 수 있습니다. `ref struct`는 구조체가 반드시 스택에 할당되도록 강제합니다. 또한, `ref struct`는 일반적인 구조체와 달리 힙에 할당될 수 없고, 박싱(Boxing)이나 인터페이스 구현이 제한되는 등 몇 가지 제약 사항을 가지고 있습니다.
+
+- 주요 이점:
+  - 스택 할당 강제: 항상 스택에 할당되어 GC의 부담을 줄이고, 메모리 할당 및 해제 비용을 최적화합니다.
+  - 안전한 사용: 힙에 할당될 수 없으므로 포인터 관련 위험이 줄어들고, `Span<T>`와 같은 구조체를 안전하게 사용할 수 있습니다.
+  - 성능 향상: 메모리 할당과 해제 비용을 줄여 전반적인 성능을 향상시킵니다.
+- 사용 예시:
+  - `Span<T>`와 같이 메모리 안전에 민감한 구조체를 정의할 때
+  - 메모리 관리를 명확하게 제어해야 하는 고성능 코드 작성 시
+  - GC의 영향을 최소화해야 하는 코드를 작성할 때
+
+#### `Span<T>`와 `ref struct`와 유사한 기능
+
+`Span<T>`와 `ref struct`와 유사한 기능 또는 비슷한 목적을 달성할 수 있는 다른 방법들이 존재합니다. 하지만 이들은 `Span<T>`와 `ref struct`만큼 효율적이거나 안전하지 않을 수 있으며, 특정 제약 사항을 가지고 있을 수 있습니다.
+
+- 배열 복사: 가장 기본적인 방법으로, 배열의 일부를 새로운 배열로 복사하여 데이터를 처리합니다.
+  - 문제점: 메모리 할당 및 복사 비용이 발생하여 성능 저하를 유발합니다.
+  - 사용 예시: 간단한 데이터 복사가 필요한 경우, 원본 데이터가 변경되지 않아야 하는 경우
+
+- `ArraySegment<T>`: 배열의 일부를 표현하는 구조체입니다.
+  - 장점: 메모리 복사 없이 배열의 일부분을 표현할 수 있습니다.
+  - 문제점: `Span<T>`처럼 다양한 메모리 원본을 지원하지 않으며, 성능 최적화가 덜 되어 있습니다.
+  - 사용 예시: 배열의 일부를 메서드에 전달하거나, 배열의 일부를 처리하는 경우
+
+- `unsafe` 키워드 및 포인터: `unsafe` 키워드를 사용하여 포인터를 직접 조작할 수 있습니다.
+  - 장점: 매우 높은 수준의 성능 최적화가 가능합니다.
+  - 문제점: 메모리 안전을 보장하기 어려우며, 포인터 조작 오류 시 프로그램이 불안정해질 수 있습니다.
+  - 사용 예시: 극도로 높은 성능이 요구되는 특정 작업, 네이티브 메모리 조작이 필요한 경우
+
+- `Memory<T>`: 메모리 연속된 영역에 대한 추상화된 표현입니다.
+  - 장점: `Span<T>`와 유사하게 다양한 메모리 원본에서 동작하며, `Span<T>`로 변환할 수 있습니다.
+  - 문제점: `Span<T>`처럼 스택에 할당되는 값 형식이 아니라 힙에 할당될 수 있는 참조 형식이므로 제약 사항이 존재합니다.
+  - 사용 예시: 비동기 작업, 파일 및 네트워크 I/O와 같이 메모리 관리 및 수명이 명확하지 않은 상황
+
+- `StringBuilder`의 `GetChunks()`: 문자열을 직접 조작하는 대신 `StringBuilder`를 사용하고 `GetChunks()`를 호출하면 `ReadOnlyMemory<char>`를 얻을 수 있습니다.
+  - 장점: 문자열을 더 효율적으로 조작할 수 있습니다.
+  - 문제점: 여전히 추가 복사가 발생할 수 있습니다.
+  - 사용 예시: 문자열을 수정하고 파싱하는 경우
+
+#### `ref struct`와 유사한 기능 및 방법
+
+- 일반 구조체: 기본적으로 스택에 할당되지만, 다음과 같은 제약 사항이 있습니다.
+  - 참조 형식 멤버를 포함할 수 있으며, 박싱될 수 있고, 힙에 할당될 수 있습니다. 인터페이스를 구현할 수 있습니다.
+  - 문제점: GC 부담을 증가시키고, 의도치 않게 힙에 할당될 수 있어 메모리 관리가 복잡해질 수 있습니다.
+  - 사용 예시: 일반적인 값 형식으로 데이터를 저장할 때
+
+#### 요약
+
+| 기능          | `Span<T>`                                                                                                                                                                                          | `ref struct`                                                                                                 |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| 주요 목적   | 메모리 복사 없이 연속적인 메모리 영역에 효율적으로 접근                                                                                                                                                                 | 구조체가 항상 스택에 할당되도록 강제하여 메모리 관리를 최적화                                                                                                                             |
+| 대안        | 배열 복사, `ArraySegment<T>`, `unsafe` 키워드 및 포인터, `Memory<T>`, `StringBuilder`의 `GetChunks()`                                                                                                                  | 일반적인 구조체                                                                                               |
+| 장점        | 제로 카피, 다양한 메모리 원본 지원, 안전한 접근                                                                                                                                                                  | 스택 할당 강제, 메모리 안전성 향상, GC 부담 감소                                                                                          |
+| 단점        | 특정 상황에서 다소 복잡하게 느껴질 수 있음                                                                                                                                                                       | 박싱 불가, 인터페이스 구현 불가, 힙 할당 불가 등 제약 사항 존재                                                                                   |
+| 유사 기능 차이 | 대안들은 메모리 복사 또는 메모리 관리의 안전성이 떨어짐. 특정 용도에 한정됨                                                                                                                                                                     | 대안은 메모리 관리, GC 부담, 특정 제약 사항에서 차이 발생                                                                                         |
+| 사용 권장   | 고성능 데이터 처리, 메모리 조작, 파싱, I/O                                                                                                                                                         | 메모리 안전을 보장해야 하는 구조체, 고성능 코드, GC 영향을 최소화해야 하는 코드 작성 시                                                                        |
+
+네, `Span<T>`와 `ref struct`를 사용했을 때 성능 및 안전성 측면에서 얻을 수 있는 장점을 보여주는 간단한 예제를 C#으로 작성해 보겠습니다.
+
+예제 1: `Span<T>`를 사용한 문자열 파싱 성능 향상
+
+```csharp
+using System;
+using System.Diagnostics;
+
+public class SpanExample
+{
+    public static void Main(string[] args)
+    {
+        string largeString = new string('A', 1000000) + ",12345,67890"; // 큰 문자열 생성
+
+        // 일반적인 문자열 처리 방법 (Substring)
+        Stopwatch sw = Stopwatch.StartNew();
+        for (int i = 0; i < 1000; i++)
+        {
+            string sub1 = largeString.Substring(largeString.IndexOf(',') + 1);
+            string sub2 = sub1.Substring(sub1.IndexOf(',') + 1);
+            _ = int.Parse(sub2);
+        }
+        sw.Stop();
+        Console.WriteLine($"Substring Elapsed: {sw.ElapsedMilliseconds} ms");
+
+        // Span<T>을 사용한 문자열 처리 방법
+        sw = Stopwatch.StartNew();
+        for (int i = 0; i < 1000; i++)
+        {
+             ReadOnlySpan<char> span = largeString.AsSpan();
+             ReadOnlySpan<char> sub1 = span.Slice(span.IndexOf(',') + 1);
+             ReadOnlySpan<char> sub2 = sub1.Slice(sub1.IndexOf(',') + 1);
+            _ = int.Parse(sub2);
+        }
+        sw.Stop();
+        Console.WriteLine($"Span Elapsed: {sw.ElapsedMilliseconds} ms");
+    }
+}
+```
+
+설명:
+
+1.  큰 문자열 생성: 테스트를 위해 큰 문자열을 생성합니다.
+2.  일반적인 문자열 처리: `Substring`을 사용하여 문자열을 자르고 파싱합니다.
+3.  `Span<T>`를 사용한 문자열 처리:
+    - `AsSpan()`을 사용하여 문자열을 `ReadOnlySpan<char>`로 변환합니다.
+    - `Slice()`를 사용하여 `Span<T>`의 일부분을 참조합니다.
+    - 메모리 복사 없이 `Span<T>`을 이용하여 문자열을 파싱합니다.
+4.  성능 측정: `Stopwatch`를 사용하여 각 방법의 실행 시간을 측정합니다.
+
+실행 결과:
+
+일반적으로 `Substring`을 사용하는 방법보다 `Span<T>`을 사용하는 방법이 훨씬 빠른 것을 확인할 수 있습니다. 이는 `Span<T>`이 메모리 복사를 하지 않고 원본 문자열의 뷰를 제공하기 때문입니다.
+
+예제 2: `ref struct`를 사용한 안전한 스택 기반 구조체
+
+```csharp
+using System;
+
+public class RefStructExample
+{
+     // ref struct 예시
+    public ref struct StackBasedData
+    {
+        public int Value;
+        public StackBasedData(int value)
+        {
+            Value = value;
+        }
+    }
+
+    public static void Main(string[] args)
+    {
+        StackBasedData data = new StackBasedData(10); // 스택에 할당됨
+
+        // 오류: ref struct는 힙에 할당될 수 없으므로 아래와 같이 사용할 수 없음
+        // object boxedData = data;
+
+        // ref struct를 인수로 받는 메서드 호출
+         PrintStackBasedData(data);
+
+        // ref struct를 반환하는 메서드 호출
+        ref StackBasedData returnedData = ref GetStackBasedData(data);
+        Console.WriteLine($"Returned Data: {returnedData.Value}");
+        
+    }
+
+    public static void PrintStackBasedData(StackBasedData data)
+    {
+        Console.WriteLine($"Data: {data.Value}");
+    }
+
+    public static ref StackBasedData GetStackBasedData(StackBasedData data)
+    {
+        return ref data; // ref 반환
+    }
+
+}
+
+네, `Span<T>`와 `ref struct`를 사용했을 때 성능 및 안전성 측면에서 얻을 수 있는 장점을 보여주는 간단한 예제를 C#으로 작성해 보겠습니다.
+
+예제 1: `Span<T>`를 사용한 문자열 파싱 성능 향상
+
+```csharp
+using System;
+using System.Diagnostics;
+
+public class SpanExample
+{
+    public static void Main(string[] args)
+    {
+        string largeString = new string('A', 1000000) + ",12345,67890"; // 큰 문자열 생성
+
+        // 일반적인 문자열 처리 방법 (Substring)
+        Stopwatch sw = Stopwatch.StartNew();
+        for (int i = 0; i < 1000; i++)
+        {
+            string sub1 = largeString.Substring(largeString.IndexOf(',') + 1);
+            string sub2 = sub1.Substring(sub1.IndexOf(',') + 1);
+            _ = int.Parse(sub2);
+        }
+        sw.Stop();
+        Console.WriteLine($"Substring Elapsed: {sw.ElapsedMilliseconds} ms");
+
+        // Span<T>을 사용한 문자열 처리 방법
+        sw = Stopwatch.StartNew();
+        for (int i = 0; i < 1000; i++)
+        {
+             ReadOnlySpan<char> span = largeString.AsSpan();
+             ReadOnlySpan<char> sub1 = span.Slice(span.IndexOf(',') + 1);
+             ReadOnlySpan<char> sub2 = sub1.Slice(sub1.IndexOf(',') + 1);
+            _ = int.Parse(sub2);
+        }
+        sw.Stop();
+        Console.WriteLine($"Span Elapsed: {sw.ElapsedMilliseconds} ms");
+    }
+}
+
+public class RefStructExample
+{
+     // ref struct 예시
+    public ref struct StackBasedData
+    {
+        public int Value;
+        public StackBasedData(int value)
+        {
+            Value = value;
+        }
+    }
+    public static void Main(string[] args)
+    {
+        StackBasedData data = new StackBasedData(10); // 스택에 할당됨
+
+        // 오류: ref struct는 힙에 할당될 수 없으므로 아래와 같이 사용할 수 없음
+        // object boxedData = data;
+
+        // ref struct를 인수로 받는 메서드 호출
+         PrintStackBasedData(data);
+
+        // ref struct를 반환하는 메서드 호출
+        ref StackBasedData returnedData = ref GetStackBasedData(data);
+        Console.WriteLine($"Returned Data: {returnedData.Value}");
+        
+    }
+
+    public static void PrintStackBasedData(StackBasedData data)
+    {
+        Console.WriteLine($"Data: {data.Value}");
+    }
+
+    public static ref StackBasedData GetStackBasedData(StackBasedData data)
+    {
+        return ref data; // ref 반환
+    }
+
+}
+```
+
+## 박싱과 언박싱(boxing and unboxing)
+
+- 박싱: 값 형식을 참조 형식인 `object` 형식으로 변환하는 과정, 힙에 새로운 객체를 할당하고 값 형식의 데이터를 복사
+```csharp
+int num = 123;
+object boxed = num; // int -> object로 박싱
+```
+
+- 언박싱: `object` 형식에서 값 형식으로 다시 변환하는 과정, 힙에 저장된 데이터를 스택으로 복사
+```csharp
+object boxedNum = 123;
+int unboxedNum = (int)boxedNum; // 언박싱: int 형식으로 명시적 캐스팅
+```
+
+## 문자열 다루기(string manipulation)
+
+- 찾기: 문자열 내에서 특정 문자 또는 문자열의 위치를 찾는 메서드(`IndexOf`, `LastIndexOf`, `Contains` 등)
+
+```csharp
+string greeting = "Hello World";
+int indexOfW = greeting.IndexOf('W'); // 6
+bool hasHello = greeting.Contains("Hello"); // true
+```
+
+- 변형: 문자열의 내용을 변경하는 메서드(`ToUpper`, `ToLower`, `Trim`, `Replace` 등)
+
+```csharp
+string sample = "  Hello World  ";
+string upper = sample.ToUpper(); // "  HELLO WORLD  "
+string trimmed = sample.Trim();  // "Hello World"
+string replaced = sample.Replace("World", "C#"); // "  Hello C#  "
+```
+
+- 분할: 문자열을 특정 구분자를 기준으로 여러 부분으로 나누는 메서드(`Split`)
+
+```csharp
+string fruitList = "Apple,Banana,Cherry";
+string[] fruits = fruitList.Split(',');
+// fruits[0] = "Apple"
+// fruits[1] = "Banana"
+// fruits[2] = "Cherry"
+```
+
+- 서식: 문자열의 형식을 지정하는 방법(`string.Format`, 보간된 문자열 `$""`)
+
+```csharp
+int age = 25;
+string name = "홍길동";
+
+// 1) string.Format 사용
+string result1 = string.Format("이름: {0}, 나이: {1}", name, age);
+
+// 2) 보간 문자열 사용($"" 또는 @$"")
+string result2 = $"이름: {name}, 나이: {age}";
+```
+
+## 데이터를 가공하는 연산자(operators)
+
+- 산술 연산자: `+`, `-`, `*`, `/`, `%`
+
+```csharp
+int x = 10;
+int y = 3;
+Console.WriteLine(x + y); // 13
+Console.WriteLine(x - y); // 7
+Console.WriteLine(x * y); // 30
+Console.WriteLine(x / y); // 3  (정수 나눗셈)
+Console.WriteLine(x % y); // 1
+```
+
+- 증가 연산자와 감소 연산자: `++`, `--` (전위, 후위)
+
+```csharp
+int num = 5;
+Console.WriteLine(num++); // 5 (출력 후에 증가)
+Console.WriteLine(num);   // 6
+Console.WriteLine(++num); // 7 (미리 증가 후에 출력)
+```
+
+- 문자열 결합 연산자: `+`
+
+```csharp
+string hello = "Hello";
+string world = "World";
+string combined = hello + " " + world; // "Hello World"
+```
+
+- 관계 연산자: `==`, `!=`, `>`, `<`, `>=`, `<=`
+
+```csharp
+int a = 10, b = 20;
+Console.WriteLine(a == b); // false
+Console.WriteLine(a != b); // true
+Console.WriteLine(a > b);  // false
+```
+
+- 논리 연산자: `&&`, `||`, `!`
+
+```csharp
+bool c = true, d = false;
+Console.WriteLine(c && d); // false
+Console.WriteLine(c || d); // true
+Console.WriteLine(!c);     // false
+```
+
+- 조건 연산자 (삼항 연산자): `?:`
+
+```csharp
+int score = 85;
+string result = (score >= 60) ? "합격" : "불합격";
+```
+
+- 비트 연산자: `&`, `|`, `^`, `~`, `<<`, `>>`
+
+```csharp
+int e = 10;    // 1010 (2진수)
+int f = 12;    // 1100 (2진수)
+Console.WriteLine(e & f); // 8 (1000)
+Console.WriteLine(e | f); // 14(1110)
+Console.WriteLine(e ^ f); // 6 (0110)
+
+int g = 1;
+Console.WriteLine(g << 2); // 4  (1을 왼쪽으로 2비트 이동)
+Console.WriteLine(g >> 1); // 0  (1을 오른쪽으로 1비트 이동)
+```
+
+- 할당 연산자: `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `|=`, `^=`, `<<=`, `>>=`
+
+```csharp
+int h = 10;
+h += 5;  // h = 15
+h <<= 1; // h = 30 (이진수로 한 칸 왼쪽 이동)
+```
+
+- null 조건부 연산자: `?.` (null인 경우 null 반환), 
+- null 병합 연산자: `??` (null인 경우 다른 값 반환)
+
+```csharp
+string? nullString = null;
+int? length = nullString?.Length; // nullString이 null이면 전체 결과가 null
+string? maybeNull = null;
+string resultString = maybeNull ?? "값이 null이었어요"; 
+// maybeNull이 null이면 뒤의 "값이 null이었어요" 대입
+```
+
+## 기타 형식 관련 내용
+
+- 데이터 형식 바꾸기(type conversion):
+  - 암시적 변환 (Implicit Conversion): 데이터 손실이 없는 경우 자동으로 수행되는 변환
+  - 명시적 변환 (Explicit Conversion/Casting): 데이터 손실이 발생할 수 있는 경우 명시적으로 지정해야 하는 변환
+
+```csharp
+long bigNum = 123456789;
+int smallerNum = (int)bigNum; // 명시적 캐스팅
+```
+
+- 상수(const): 컴파일 시간에 값이 결정되는 변하지 않는 값
+
+```csharp
+const double PI = 3.141592;
+```
+
+- nullable 형식(nullable types): 값 형식이 `null` 값을 가질 수 있도록 하는 형식. `int?`, `bool?` 등의 형태로 사용
+
+```csharp
+int? x = null;
+x = 10;
+```
+
+- var 형식(var keyword): 컴파일러가 변수의 형식을 추론하도록 하는 키워드. 지역 변수 선언 시에만 사용 가능
+
+```csharp
+var number = 10;      // number는 int로 추론
+var text = "Hello";   // text는 string으로 추론
+```
+
+- 공용 형식 시스템(common type system, cts): .NET 런타임 환경에서 모든 형식이 어떻게 표현되고 사용되는지를 정의하는 명세(int → System.Int32, string → System.String 등)
+
+### 예제
+
+```csharp
+using System;
+
+public class Person
+{
+    public string Name;
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        // 값 형식 예시
+        int valueA = 10;
+        int valueB = valueA;
+        valueB = 20;
+        Console.WriteLine($"valueA = {valueA}, valueB = {valueB}"); 
+        // valueA = 10, valueB = 20 (복사본이기 때문)
+
+        // 참조 형식 예시
+        Person person1 = new Person();
+        person1.Name = "Kim";
+
+        Person person2 = person1; // 같은 참조를 복사
+        person2.Name = "Lee";
+
+        Console.WriteLine($"person1.Name = {person1.Name}, person2.Name = {person2.Name}");
+        // person1.Name = Lee, person2.Name = Lee (같은 객체 참조)
+    }
+}
+```
+
+## 패턴 매칭
+
+C#의 패턴 매칭(Pattern Matching)은 데이터의 구조와 값에 따라 코드를 분기하거나 특정 데이터를 추출하는 강력한 기능입니다. 기존의 `if`문이나 `switch`문을 사용하는 것보다 더 간결하고 가독성이 좋은 코드를 작성할 수 있도록 도와줍니다. C# 7.0부터 도입되어 이후 버전에서 지속적으로 확장되고 있으며, 현재 C#의 중요한 기능 중 하나로 자리 잡았습니다. 
+
+패턴 매칭은 특정 데이터가 어떤 패턴과 일치하는지 확인하고, 일치하는 패턴에 따라 다른 동작을 수행하는 과정입니다. C#에서는 다양한 형태의 패턴을 사용할 수 있으며, 이를 통해 복잡한 조건 분기를 쉽게 처리할 수 있습니다.
+
+### 주요 패턴 종류
+
+#### 상수 패턴(Constant Pattern): 특정 상수 값과 일치하는지 확인합니다.
+
+```csharp
+object obj = 10;
+
+if (obj is 10)
+{
+    Console.WriteLine("obj is 10");
+}
+```
+
+#### 타입 패턴(Type Pattern): 특정 타입인지 확인하고, 해당 타입으로 변환합니다.
+
+```csharp
+object obj = "hello";
+
+if (obj is string str)
+{
+    Console.WriteLine($"obj is a string: {str}");
+}
+```
+
+#### 변수 패턴(Var Pattern): 모든 값과 일치하며, 값을 새로운 변수에 할당합니다.
+
+```csharp
+object obj = 20;
+
+if (obj is var value)
+{
+    Console.WriteLine($"obj value: {value}");
+}
+```
+
+#### 버리기 패턴(Discard Pattern): 값과 일치하지만, 값을 변수에 할당하지 않고 버립니다.
+
+```csharp
+object obj = null;
+
+if(obj is not null)
+{ 
+    // 변수에 할당하지 않고 단순히 null 이 아님을 검사
+    Console.WriteLine($"obj is not null");
+}
+
+if (obj is _)
+{
+    Console.WriteLine("obj is something, but I don't care");
+}
+```
+
+#### 속성 패턴(Property Pattern): 객체의 특정 속성 값과 일치하는지 확인합니다.
+
+```csharp
+public class Person {
+    public string Name { get; set; }
+    public int Age { get; set; }
+}
+
+Person person = new Person { Name = "Alice", Age = 30 };
+
+if (person is { Name: "Alice", Age: 30 })
+{
+    Console.WriteLine("person is Alice, 30 years old");
+}
+```
+
+#### 위치 패턴(Positional Pattern): 객체의 생성자 또는 `Deconstruct` 메서드를 통해 분해된 값과 일치하는지 확인합니다.
+
+```csharp
+public class Point {
+    public int X { get; set; }
+    public int Y { get; set; }
+    public void Deconstruct(out int x, out int y)
+    {
+        x = X;
+        y = Y;
+    }
+}
+Point point = new Point { X = 10, Y = 20 };
+if (point is (10, 20))
+{
+    Console.WriteLine("point is (10, 20)");
+}
+```
+
+#### 관계형 패턴(Relational Pattern): 값의 관계를 확인합니다. (>, <, >=, <=)
+
+```csharp
+int age = 25;
+if (age is > 18)
+{
+    Console.WriteLine("age is greater than 18");
+}
+```
+
+#### 논리 패턴(Logical Pattern): 패턴들을 조합하여 복잡한 조건을 만듭니다. (and, or, not)
+
+```csharp
+int num = 15;
+if (num is > 10 and < 20) // and 패턴
+{
+    Console.WriteLine("num is between 10 and 20");
+}
+
+if (num is < 5 or > 20) // or 패턴
+{
+      Console.WriteLine("num is less than 5 or greater than 20");
+}
+
+if (num is not 10) // not 패턴
+{
+    Console.WriteLine("num is not 10");
+}
+```
+
+#### 리스트 패턴 (List Pattern): 리스트 혹은 배열의 구조를 확인합니다.
+
+```csharp
+int[] numbers = { 1, 2, 3, 4, 5 };
+if (numbers is [1, 2, 3, _, 5])
+{
+    onsole.WriteLine("List pattern matches with 1, 2, 3, *, 5");
+}
+```
+
+### 패턴 매칭의 활용
+
+- `is` 연산자: 특정 패턴과 일치하는지 확인합니다.
+
+```csharp
+if (obj is string str)
+{
+    // ...
+}
+```
+
+- `switch` 문: 패턴에 따라 분기 처리를 합니다.
+    
+```csharp
+object obj = 10;
+switch (obj)
+{
+    case int i when i > 5: // when절을 추가하여 더 복잡한 조건 설정가능
+        Console.WriteLine("obj is an int greater than 5");
+        break;
+    case string str:
+        Console.WriteLine($"obj is a string: {str}");
+        break;
+    case null:
+        Console.WriteLine("obj is null");
+        break;
+    default:
+        Console.WriteLine("obj does not match any cases");
+        break;
+}
+  ```
+
+### 패턴 매칭의 장점
+
+- 가독성 향상: 복잡한 조건 분기를 더 명확하고 간결하게 표현할 수 있습니다.
+- 코드 간결화: 불필요한 타입 변환 및 조건 검사를 줄일 수 있습니다.
+- 유지 보수성 향상: 코드를 더 이해하고 변경하기 쉽도록 만들어줍니다.
+- 안정성: 타입 안정성이 향상되어 런타임 오류를 줄일 수 있습니다.
+
+C#의 패턴 매칭은 코드를 더욱 간결하고 가독성 있게 만들 뿐만 아니라, 복잡한 조건 분기를 쉽게 처리할 수 있도록 해주는 강력한 기능입니다.  다양한 종류의 패턴을 익히고 적절하게 활용한다면, 코드의 품질을 높이고 개발 생산성을 향상시킬 수 있을 것입니다.
+

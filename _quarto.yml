@@ -33,8 +33,8 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
-  pdf:
-    documentclass: article
-    include-in-header:
-      text: |
-        \usepackage{kotex}
+  # pdf:
+  #   documentclass: article
+  #   include-in-header:
+  #     text: |
+  #       \usepackage{kotex}

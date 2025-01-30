@@ -2,3 +2,5 @@ website:
   sidebar:
     contents:
       - notes/01.qmd
+      - notes/02.qmd
+      - notes/03.qmd

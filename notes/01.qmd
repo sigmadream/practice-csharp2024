@@ -9,7 +9,7 @@ categories:
   - .NET
   - CLR
   - Visual Studio
-version: [v.1.0]
+version: [v.20250130]
 date: last-modified
 ---
 
