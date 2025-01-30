@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-01-30">
+
+<title>Value, Ref, Types – Practice C#</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fad5ab29a14bbe0a7a7d29177f3f13bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Value, Ref, Types – Practice C#">
+<meta property="og:description" content="“”">
+<meta property="og:site_name" content="Practice C#">
+<meta name="twitter:title" content="Value, Ref, Types – Practice C#">
+<meta name="twitter:description" content="“”">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Practice C#</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Value, Ref, Types</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C#과 .NET</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#c의-형식types" id="toc-c의-형식types" class="nav-link active" data-scroll-target="#c의-형식types"><code>C#</code>의 형식(types)</a>
+  <ul class="collapse">
+  <li><a href="#값-형식value-types" id="toc-값-형식value-types" class="nav-link" data-scroll-target="#값-형식value-types">값 형식(value types)</a></li>
+  <li><a href="#참조-형식reference-types" id="toc-참조-형식reference-types" class="nav-link" data-scroll-target="#참조-형식reference-types">참조 형식(reference types)</a></li>
+  <li><a href="#몇가지-예제" id="toc-몇가지-예제" class="nav-link" data-scroll-target="#몇가지-예제">몇가지 예제</a></li>
+  <li><a href="#spant와-ref-struct" id="toc-spant와-ref-struct" class="nav-link" data-scroll-target="#spant와-ref-struct"><code>Span&lt;T&gt;</code>와 <code>ref struct</code></a></li>
+  </ul></li>
+  <li><a href="#박싱과-언박싱boxing-and-unboxing" id="toc-박싱과-언박싱boxing-and-unboxing" class="nav-link" data-scroll-target="#박싱과-언박싱boxing-and-unboxing">박싱과 언박싱(boxing and unboxing)</a></li>
+  <li><a href="#문자열-다루기string-manipulation" id="toc-문자열-다루기string-manipulation" class="nav-link" data-scroll-target="#문자열-다루기string-manipulation">문자열 다루기(string manipulation)</a></li>
+  <li><a href="#데이터를-가공하는-연산자operators" id="toc-데이터를-가공하는-연산자operators" class="nav-link" data-scroll-target="#데이터를-가공하는-연산자operators">데이터를 가공하는 연산자(operators)</a></li>
+  <li><a href="#기타-형식-관련-내용" id="toc-기타-형식-관련-내용" class="nav-link" data-scroll-target="#기타-형식-관련-내용">기타 형식 관련 내용</a>
+  <ul class="collapse">
+  <li><a href="#예제" id="toc-예제" class="nav-link" data-scroll-target="#예제">예제</a></li>
+  </ul></li>
+  <li><a href="#패턴-매칭" id="toc-패턴-매칭" class="nav-link" data-scroll-target="#패턴-매칭">패턴 매칭</a>
+  <ul class="collapse">
+  <li><a href="#주요-패턴-종류" id="toc-주요-패턴-종류" class="nav-link" data-scroll-target="#주요-패턴-종류">주요 패턴 종류</a></li>
+  <li><a href="#패턴-매칭의-활용" id="toc-패턴-매칭의-활용" class="nav-link" data-scroll-target="#패턴-매칭의-활용">패턴 매칭의 활용</a></li>
+  <li><a href="#패턴-매칭의-장점" id="toc-패턴-매칭의-장점" class="nav-link" data-scroll-target="#패턴-매칭의-장점">패턴 매칭의 장점</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Value, Ref, Types</h1>
+<p class="subtitle lead">Ref is not Ref</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Ref</div>
+    <div class="quarto-category">Value</div>
+    <div class="quarto-category">Span</div>
+    <div class="quarto-category">Ref Struct</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 30, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p>“”</p>
+  </div>
+</div>
+
+
+</header>
+
+
+<section id="c의-형식types" class="level2">
+<h2 class="anchored" data-anchor-id="c의-형식types"><code>C#</code>의 형식(types)</h2>
+<p>C#은 강력한 형식 시스템을 가진 언어로, 데이터의 종류를 명확하게 구분하여 안정적인 프로그래밍을 지원합니다. C#의 모든 형식은 값 형식(Value Types) 또는 참조 형식(Reference Types) 중 하나에 속합니다.</p>
+<section id="값-형식value-types" class="level3">
+<h3 class="anchored" data-anchor-id="값-형식value-types">값 형식(value types)</h3>
+<p>값 형식은 데이터를 직접 저장하는 형식을 말합니다. 변수에 값을 할당하면 데이터의 복사본이 생성되어 저장됩니다. 값 형식의 데이터는 메모리의 스택(Stack) 영역에 저장, 스택은 비교적 빠르고 크기가 제한된 메모리 영역, 함수 호출과 반환에 따라 메모리가 자동으로 관리됩니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> b <span class="op">=</span> a<span class="op">;</span> <span class="co">// b에 a 값이 '복사'되어 들어감, a가 10에서 다른 값으로 바뀌더라도 b에는 영향 없음</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>숫자 데이터 형식:
+<ul>
+<li>정수 계열: <code>sbyte</code>, <code>byte</code>, <code>short</code>, <code>ushort</code>, <code>int</code>, <code>uint</code>, <code>long</code>, <code>ulong</code></li>
+<li>실수 계열: <code>float</code>, <code>double</code>, <code>decimal</code></li>
+</ul></li>
+<li>문자 형식: <code>char</code> (유니코드 문자 하나)</li>
+<li>논리 형식: <code>bool</code> (true 또는 false)</li>
+<li>열거 형식 (enum): 명명된 상수 집합을 정의하는 형식.</li>
+<li>구조체 (struct): 사용자 정의 값 형식. 여러 개의 값 형식을 묶어서 하나의 복합적인 데이터 형식을 만들 수 있습니다.</li>
+</ul>
+</section>
+<section id="참조-형식reference-types" class="level3">
+<h3 class="anchored" data-anchor-id="참조-형식reference-types">참조 형식(reference types)</h3>
+<p>참조 형식은 데이터가 저장된 메모리 주소를 저장하는 형식을 말합니다. 변수에 값을 할당하면 데이터의 주소가 복사되어 저장됩니다. 따라서 여러 변수가 동일한 데이터를 참조할 수 있습니다. 참조 형식의 데이터는 메모리의 힙(Heap) 영역에 저장, 힙은 스택보다 크기가 크지만, 메모리 관리를 프로그래머가 어느 정도 신경 써야합니다(가비지 컬렉터가 자동적으로 관리).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> s1 <span class="op">=</span> <span class="st">"Hello"</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> s2 <span class="op">=</span> s1<span class="op">;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">// s2에는 s1과 동일한 "Hello"라는 문자열 객체의 참조가 복사됨, s1이나 s2 중 하나를 변경하면,(string은 불변(Immutable) 특성을 갖지만)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">// 새로운 문자열 객체가 생성되는 등의 과정에서 참조가 달라질 수 있음</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>문자열 형식: <code>string</code> (유니코드 문자열)</li>
+<li>object 형식: 모든 형식의 조상 형식. 모든 값 형식과 참조 형식은 <code>object</code> 형식으로 암시적 변환이 가능</li>
+<li>클래스 (class): 사용자 정의 참조 형식. 객체 지향 프로그래밍의 핵심 요소</li>
+<li>인터페이스 (interface): 메서드 시그니처의 집합을 정의하는 형식</li>
+<li>배열 (array): 동일한 형식의 데이터들을 연속적으로 저장하는 형식</li>
+<li>델리게이트 (delegate): 메서드를 참조하는 형식</li>
+</ul>
+</section>
+<section id="몇가지-예제" class="level3">
+<h3 class="anchored" data-anchor-id="몇가지-예제">몇가지 예제</h3>
+<section id="값과-참조" class="level4">
+<h4 class="anchored" data-anchor-id="값과-참조">값과 참조</h4>
+<div class="sourceCode" id="cb3"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> System<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">struct</span> MyStruct</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Value<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MyClass</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Value<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Program</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">()</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 1. 구조체 (값 형식)</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        MyStruct s1 <span class="op">=</span> <span class="kw">new</span> MyStruct <span class="op">{</span> Value <span class="op">=</span> <span class="dv">10</span> <span class="op">};</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        MyStruct s2 <span class="op">=</span> s1<span class="op">;</span>   <span class="co">// 값 복사</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        s2<span class="op">.</span><span class="fu">Value</span> <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"s1.Value = {s1.Value}"</span><span class="op">);</span> <span class="co">// 10</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"s2.Value = {s2.Value}"</span><span class="op">);</span> <span class="co">// 20</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 2. 클래스 (참조 형식)</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        MyClass c1 <span class="op">=</span> <span class="kw">new</span> MyClass <span class="op">{</span> Value <span class="op">=</span> <span class="dv">10</span> <span class="op">};</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        MyClass c2 <span class="op">=</span> c1<span class="op">;</span>    <span class="co">// 참조 복사</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        c2<span class="op">.</span><span class="fu">Value</span> <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"c1.Value = {c1.Value}"</span><span class="op">);</span> <span class="co">// 20</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"c2.Value = {c2.Value}"</span><span class="op">);</span> <span class="co">// 20</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>“값 형식 안에도 참조가 들어갈 수 있다”는 점을 직접 실험해 보면, 단순히 “값 형식=스택, 참조 형식=힙”이라고 끝나는 게 아니라는 것을 확인 할 수 있습니다. PersonStruct는 분명히 값 형식이지만, 내부에 string(참조 형식)을 가지고 있으므로 1) 문자열 자체는 힙에 저장, 2) 구조체 안의 Name 필드는 문자열 객체의 주소를 값으로 갖고 있는 형태입니다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">struct</span> PersonStruct</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Name<span class="op">;</span> <span class="co">// 참조 형식 필드</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Age<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="more" class="level4">
+<h4 class="anchored" data-anchor-id="more">More!</h4>
+<ul>
+<li>인라인(Inline) 할당, Escape Analysis
+<ul>
+<li>C#/.NET이 내부적으로 Escape Analysis(값이 스택 범위를 벗어나는지 분석)를 해서 구조체를 최적화하거나, 때로는 힙 대신 스택에 할당할 수도 있음(C# 7 이상, 일부 시나리오)</li>
+<li>이런 최적화는 코드 레벨에서 바로 체감하기 어렵지만, 런타임의 최적화 원리를 이해해두면 좋음</li>
+</ul></li>
+<li>디버거에서 변수 관찰
+<ul>
+<li>Visual Studio 또는 VS Code 디버깅 기능 사용</li>
+<li>브레이크포인트를 걸고, 지역 변수와 힙에 있는 객체(참조 형식)를 “Autos”나 “Locals” 창에서 확인</li>
+<li>스택 프레임을 확인하며, 값 형식이 어떻게 스택에 놓이는지, 참조 형식은 어디에 놓이는지를 눈으로 보면서 익힘</li>
+<li>코드를 디버그 모드로 실행하여 s1, s2, c1, c2 변수가 가리키는 대상을 확인
+<ul>
+<li>s2는 새로운 값(20)을 가지지만, s1은 여전히 10을 유지하고 있음을 확인할 수 있음(값 복사)</li>
+<li>c2 값을 변경하면, c1도 바뀌는 것을 볼 수 있음(동일 객체 참조)</li>
+</ul></li>
+</ul></li>
+<li>IL(중간 언어) 코드 확인
+<ul>
+<li><code>C#</code> 코드는 <code>.NET</code>의 중간 언어(<code>IL</code>, <code>Intermediate Language</code>)로 컴파일됨</li>
+<li><code>IL</code> 디컴파일러(예: <code>ILSpy</code>, <code>dotPeek</code>)를 사용해 대입 시 박싱/언박싱이 일어나는지, 값 복사가 어떻게 구현되는지 등을 확인할 수 있음</li>
+<li><code>IL</code> 코드를 보면 <code>stloc</code>, <code>ldloc</code> 등 명령어로 스택에 변수가 어떻게 로드/저장되는지 이해가 가능해짐</li>
+</ul></li>
+<li>메모리 분석 도구 사용
+<ul>
+<li><code>dotMemory</code>, Visual Studio 진단 도구(Diagnostic Tools) 등 메모리 분석 도구를 활용</li>
+<li>프로그램 실행 중 힙에 어떤 객체가 얼마만큼 올라가 있고, GC가 언제 일어나는지 추적할 수 있음</li>
+<li>값 형식은 힙에 직접 올라가지 않지만(참조 형식의 필드로 쓰인 경우는 내부적으로 참조로 연결됨), 참조 형식이 힙에서 어떻게 배치되는지 실제 현황을 확인 가능</li>
+</ul></li>
+<li><code>Span&lt;T&gt;</code>, <code>ref struct</code> 등
+<ul>
+<li>최신 C# 문법에서는 스택만을 대상으로 하는 구조(<code>ref struct</code>)가 등장(<code>Span&lt;T&gt;</code>, <code>ReadOnlySpan&lt;T&gt;</code> 등)</li>
+<li>이런 타입들은 스택에만 존재해야 하며, 힙에 들어갈 수 없도록 CLR/C# 컴파일러가 제약을 걸어놓음</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="spant와-ref-struct" class="level3">
+<h3 class="anchored" data-anchor-id="spant와-ref-struct"><code>Span&lt;T&gt;</code>와 <code>ref struct</code></h3>
+<p><code>Span&lt;T&gt;</code>와 <code>ref struct</code>는 성능과 안전성을 높이기 위해 도입된 중요한 기능들입니다. 이들은 특히 메모리 관리 및 데이터 처리 방식에서 큰 영향을 줍니다.</p>
+<section id="spant-메모리-연속성을-이용한-효율적인-데이터-접근" class="level4">
+<h4 class="anchored" data-anchor-id="spant-메모리-연속성을-이용한-효율적인-데이터-접근"><code>Span&lt;T&gt;</code>: 메모리 연속성을 이용한 효율적인 데이터 접근</h4>
+<p>C#에서 배열이나 문자열과 같은 데이터는 메모리상에서 연속적으로 저장되는 경향이 있습니다. 기존에는 이 데이터를 처리하기 위해 배열의 일부를 복사하거나, 데이터를 수정하기 위해 새로운 배열을 할당해야 했습니다. 이러한 작업은 불필요한 메모리 할당과 복사를 초래하여 성능 저하를 유발했습니다. <code>Span&lt;T&gt;</code>는 메모리 연속적인 영역에 대한 뷰(View)를 제공합니다. 즉, 실제 데이터를 복사하지 않고도 연속적인 메모리 영역의 일부를 참조하고 조작할 수 있게 해줍니다. - 주요 이점 - Zero-copy: 메모리 복사 없이 데이터를 참조하므로 성능이 크게 향상됩니다. - 다양한 메모리 원본 지원: 배열, 문자열, <code>stackalloc</code>, 네이티브 메모리 등 다양한 메모리 원본에서 <code>Span&lt;T&gt;</code>를 생성할 수 있습니다. - 안전한 접근: <code>Span&lt;T&gt;</code>는 범위 검사를 수행하여 안전하지 않은 메모리 접근을 방지합니다. - 사용 예시: - 문자열의 일부를 파싱하거나 특정 부분을 수정하는 경우 - 네트워크나 파일에서 받은 데이터를 처리하는 경우 - 고성능 수학 라이브러리에서 배열을 조작하는 경우</p>
+</section>
+<section id="ref-struct-스택-할당-및-구조체의-안전성-보장" class="level4">
+<h4 class="anchored" data-anchor-id="ref-struct-스택-할당-및-구조체의-안전성-보장"><code>ref struct</code>: 스택 할당 및 구조체의 안전성 보장</h4>
+<p>C#의 구조체는 값 형식으로, 기본적으로 스택에 할당됩니다. 하지만 구조체 내에 참조 형식이 포함되어 있거나, 특정 경우에는 힙에 할당될 수 있습니다. 이러한 경우, 구조체의 생명주기가 복잡해지고 GC(Garbage Collector)의 부담을 증가시킬 수 있습니다. <code>ref struct</code>는 구조체가 반드시 스택에 할당되도록 강제합니다. 또한, <code>ref struct</code>는 일반적인 구조체와 달리 힙에 할당될 수 없고, 박싱(Boxing)이나 인터페이스 구현이 제한되는 등 몇 가지 제약 사항을 가지고 있습니다.</p>
+<ul>
+<li>주요 이점:
+<ul>
+<li>스택 할당 강제: 항상 스택에 할당되어 GC의 부담을 줄이고, 메모리 할당 및 해제 비용을 최적화합니다.</li>
+<li>안전한 사용: 힙에 할당될 수 없으므로 포인터 관련 위험이 줄어들고, <code>Span&lt;T&gt;</code>와 같은 구조체를 안전하게 사용할 수 있습니다.</li>
+<li>성능 향상: 메모리 할당과 해제 비용을 줄여 전반적인 성능을 향상시킵니다.</li>
+</ul></li>
+<li>사용 예시:
+<ul>
+<li><code>Span&lt;T&gt;</code>와 같이 메모리 안전에 민감한 구조체를 정의할 때</li>
+<li>메모리 관리를 명확하게 제어해야 하는 고성능 코드 작성 시</li>
+<li>GC의 영향을 최소화해야 하는 코드를 작성할 때</li>
+</ul></li>
+</ul>
+</section>
+<section id="spant와-ref-struct와-유사한-기능" class="level4">
+<h4 class="anchored" data-anchor-id="spant와-ref-struct와-유사한-기능"><code>Span&lt;T&gt;</code>와 <code>ref struct</code>와 유사한 기능</h4>
+<p><code>Span&lt;T&gt;</code>와 <code>ref struct</code>와 유사한 기능 또는 비슷한 목적을 달성할 수 있는 다른 방법들이 존재합니다. 하지만 이들은 <code>Span&lt;T&gt;</code>와 <code>ref struct</code>만큼 효율적이거나 안전하지 않을 수 있으며, 특정 제약 사항을 가지고 있을 수 있습니다.</p>
+<ul>
+<li>배열 복사: 가장 기본적인 방법으로, 배열의 일부를 새로운 배열로 복사하여 데이터를 처리합니다.
+<ul>
+<li>문제점: 메모리 할당 및 복사 비용이 발생하여 성능 저하를 유발합니다.</li>
+<li>사용 예시: 간단한 데이터 복사가 필요한 경우, 원본 데이터가 변경되지 않아야 하는 경우</li>
+</ul></li>
+<li><code>ArraySegment&lt;T&gt;</code>: 배열의 일부를 표현하는 구조체입니다.
+<ul>
+<li>장점: 메모리 복사 없이 배열의 일부분을 표현할 수 있습니다.</li>
+<li>문제점: <code>Span&lt;T&gt;</code>처럼 다양한 메모리 원본을 지원하지 않으며, 성능 최적화가 덜 되어 있습니다.</li>
+<li>사용 예시: 배열의 일부를 메서드에 전달하거나, 배열의 일부를 처리하는 경우</li>
+</ul></li>
+<li><code>unsafe</code> 키워드 및 포인터: <code>unsafe</code> 키워드를 사용하여 포인터를 직접 조작할 수 있습니다.
+<ul>
+<li>장점: 매우 높은 수준의 성능 최적화가 가능합니다.</li>
+<li>문제점: 메모리 안전을 보장하기 어려우며, 포인터 조작 오류 시 프로그램이 불안정해질 수 있습니다.</li>
+<li>사용 예시: 극도로 높은 성능이 요구되는 특정 작업, 네이티브 메모리 조작이 필요한 경우</li>
+</ul></li>
+<li><code>Memory&lt;T&gt;</code>: 메모리 연속된 영역에 대한 추상화된 표현입니다.
+<ul>
+<li>장점: <code>Span&lt;T&gt;</code>와 유사하게 다양한 메모리 원본에서 동작하며, <code>Span&lt;T&gt;</code>로 변환할 수 있습니다.</li>
+<li>문제점: <code>Span&lt;T&gt;</code>처럼 스택에 할당되는 값 형식이 아니라 힙에 할당될 수 있는 참조 형식이므로 제약 사항이 존재합니다.</li>
+<li>사용 예시: 비동기 작업, 파일 및 네트워크 I/O와 같이 메모리 관리 및 수명이 명확하지 않은 상황</li>
+</ul></li>
+<li><code>StringBuilder</code>의 <code>GetChunks()</code>: 문자열을 직접 조작하는 대신 <code>StringBuilder</code>를 사용하고 <code>GetChunks()</code>를 호출하면 <code>ReadOnlyMemory&lt;char&gt;</code>를 얻을 수 있습니다.
+<ul>
+<li>장점: 문자열을 더 효율적으로 조작할 수 있습니다.</li>
+<li>문제점: 여전히 추가 복사가 발생할 수 있습니다.</li>
+<li>사용 예시: 문자열을 수정하고 파싱하는 경우</li>
+</ul></li>
+</ul>
+</section>
+<section id="ref-struct와-유사한-기능-및-방법" class="level4">
+<h4 class="anchored" data-anchor-id="ref-struct와-유사한-기능-및-방법"><code>ref struct</code>와 유사한 기능 및 방법</h4>
+<ul>
+<li>일반 구조체: 기본적으로 스택에 할당되지만, 다음과 같은 제약 사항이 있습니다.
+<ul>
+<li>참조 형식 멤버를 포함할 수 있으며, 박싱될 수 있고, 힙에 할당될 수 있습니다. 인터페이스를 구현할 수 있습니다.</li>
+<li>문제점: GC 부담을 증가시키고, 의도치 않게 힙에 할당될 수 있어 메모리 관리가 복잡해질 수 있습니다.</li>
+<li>사용 예시: 일반적인 값 형식으로 데이터를 저장할 때</li>
+</ul></li>
+</ul>
+</section>
+<section id="요약" class="level4">
+<h4 class="anchored" data-anchor-id="요약">요약</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 3%">
+<col style="width: 61%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>기능</th>
+<th><code>Span&lt;T&gt;</code></th>
+<th><code>ref struct</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>주요 목적</td>
+<td>메모리 복사 없이 연속적인 메모리 영역에 효율적으로 접근</td>
+<td>구조체가 항상 스택에 할당되도록 강제하여 메모리 관리를 최적화</td>
+</tr>
+<tr class="even">
+<td>대안</td>
+<td>배열 복사, <code>ArraySegment&lt;T&gt;</code>, <code>unsafe</code> 키워드 및 포인터, <code>Memory&lt;T&gt;</code>, <code>StringBuilder</code>의 <code>GetChunks()</code></td>
+<td>일반적인 구조체</td>
+</tr>
+<tr class="odd">
+<td>장점</td>
+<td>제로 카피, 다양한 메모리 원본 지원, 안전한 접근</td>
+<td>스택 할당 강제, 메모리 안전성 향상, GC 부담 감소</td>
+</tr>
+<tr class="even">
+<td>단점</td>
+<td>특정 상황에서 다소 복잡하게 느껴질 수 있음</td>
+<td>박싱 불가, 인터페이스 구현 불가, 힙 할당 불가 등 제약 사항 존재</td>
+</tr>
+<tr class="odd">
+<td>유사 기능 차이</td>
+<td>대안들은 메모리 복사 또는 메모리 관리의 안전성이 떨어짐. 특정 용도에 한정됨</td>
+<td>대안은 메모리 관리, GC 부담, 특정 제약 사항에서 차이 발생</td>
+</tr>
+<tr class="even">
+<td>사용 권장</td>
+<td>고성능 데이터 처리, 메모리 조작, 파싱, I/O</td>
+<td>메모리 안전을 보장해야 하는 구조체, 고성능 코드, GC 영향을 최소화해야 하는 코드 작성 시</td>
+</tr>
+</tbody>
+</table>
+<p>네, <code>Span&lt;T&gt;</code>와 <code>ref struct</code>를 사용했을 때 성능 및 안전성 측면에서 얻을 수 있는 장점을 보여주는 간단한 예제를 C#으로 작성해 보겠습니다.</p>
+<p>예제 1: <code>Span&lt;T&gt;</code>를 사용한 문자열 파싱 성능 향상</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> System<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Diagnostics</span><span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> SpanExample</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">(</span><span class="dt">string</span><span class="op">[]</span> args<span class="op">)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">string</span> largeString <span class="op">=</span> <span class="kw">new</span> <span class="dt">string</span><span class="op">(</span><span class="ch">'A'</span><span class="op">,</span> <span class="dv">1000000</span><span class="op">)</span> <span class="op">+</span> <span class="st">",12345,67890"</span><span class="op">;</span> <span class="co">// 큰 문자열 생성</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 일반적인 문자열 처리 방법 (Substring)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        Stopwatch sw <span class="op">=</span> Stopwatch<span class="op">.</span><span class="fu">StartNew</span><span class="op">();</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">1000</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            <span class="dt">string</span> sub1 <span class="op">=</span> largeString<span class="op">.</span><span class="fu">Substring</span><span class="op">(</span>largeString<span class="op">.</span><span class="fu">IndexOf</span><span class="op">(</span><span class="ch">','</span><span class="op">)</span> <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            <span class="dt">string</span> sub2 <span class="op">=</span> sub1<span class="op">.</span><span class="fu">Substring</span><span class="op">(</span>sub1<span class="op">.</span><span class="fu">IndexOf</span><span class="op">(</span><span class="ch">','</span><span class="op">)</span> <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            _ <span class="op">=</span> <span class="dt">int</span><span class="op">.</span><span class="fu">Parse</span><span class="op">(</span>sub2<span class="op">);</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        sw<span class="op">.</span><span class="fu">Stop</span><span class="op">();</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Substring Elapsed: {sw.ElapsedMilliseconds} ms"</span><span class="op">);</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Span&lt;T&gt;을 사용한 문자열 처리 방법</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        sw <span class="op">=</span> Stopwatch<span class="op">.</span><span class="fu">StartNew</span><span class="op">();</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">1000</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>             ReadOnlySpan<span class="op">&lt;</span><span class="dt">char</span><span class="op">&gt;</span> span <span class="op">=</span> largeString<span class="op">.</span><span class="fu">AsSpan</span><span class="op">();</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>             ReadOnlySpan<span class="op">&lt;</span><span class="dt">char</span><span class="op">&gt;</span> sub1 <span class="op">=</span> span<span class="op">.</span><span class="fu">Slice</span><span class="op">(</span>span<span class="op">.</span><span class="fu">IndexOf</span><span class="op">(</span><span class="ch">','</span><span class="op">)</span> <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>             ReadOnlySpan<span class="op">&lt;</span><span class="dt">char</span><span class="op">&gt;</span> sub2 <span class="op">=</span> sub1<span class="op">.</span><span class="fu">Slice</span><span class="op">(</span>sub1<span class="op">.</span><span class="fu">IndexOf</span><span class="op">(</span><span class="ch">','</span><span class="op">)</span> <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>            _ <span class="op">=</span> <span class="dt">int</span><span class="op">.</span><span class="fu">Parse</span><span class="op">(</span>sub2<span class="op">);</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        sw<span class="op">.</span><span class="fu">Stop</span><span class="op">();</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Span Elapsed: {sw.ElapsedMilliseconds} ms"</span><span class="op">);</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>설명:</p>
+<ol type="1">
+<li>큰 문자열 생성: 테스트를 위해 큰 문자열을 생성합니다.</li>
+<li>일반적인 문자열 처리: <code>Substring</code>을 사용하여 문자열을 자르고 파싱합니다.</li>
+<li><code>Span&lt;T&gt;</code>를 사용한 문자열 처리:
+<ul>
+<li><code>AsSpan()</code>을 사용하여 문자열을 <code>ReadOnlySpan&lt;char&gt;</code>로 변환합니다.</li>
+<li><code>Slice()</code>를 사용하여 <code>Span&lt;T&gt;</code>의 일부분을 참조합니다.</li>
+<li>메모리 복사 없이 <code>Span&lt;T&gt;</code>을 이용하여 문자열을 파싱합니다.</li>
+</ul></li>
+<li>성능 측정: <code>Stopwatch</code>를 사용하여 각 방법의 실행 시간을 측정합니다.</li>
+</ol>
+<p>실행 결과:</p>
+<p>일반적으로 <code>Substring</code>을 사용하는 방법보다 <code>Span&lt;T&gt;</code>을 사용하는 방법이 훨씬 빠른 것을 확인할 수 있습니다. 이는 <code>Span&lt;T&gt;</code>이 메모리 복사를 하지 않고 원본 문자열의 뷰를 제공하기 때문입니다.</p>
+<p>예제 2: <code>ref struct</code>를 사용한 안전한 스택 기반 구조체</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> System<span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> RefStructExample</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>     <span class="co">// ref struct 예시</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">ref</span> <span class="kw">struct</span> StackBasedData</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">public</span> <span class="dt">int</span> Value<span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">public</span> <span class="fu">StackBasedData</span><span class="op">(</span><span class="dt">int</span> value<span class="op">)</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>            Value <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">(</span><span class="dt">string</span><span class="op">[]</span> args<span class="op">)</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        StackBasedData data <span class="op">=</span> <span class="kw">new</span> <span class="fu">StackBasedData</span><span class="op">(</span><span class="dv">10</span><span class="op">);</span> <span class="co">// 스택에 할당됨</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 오류: ref struct는 힙에 할당될 수 없으므로 아래와 같이 사용할 수 없음</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">// object boxedData = data;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ref struct를 인수로 받는 메서드 호출</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>         <span class="fu">PrintStackBasedData</span><span class="op">(</span>data<span class="op">);</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ref struct를 반환하는 메서드 호출</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        <span class="kw">ref</span> StackBasedData returnedData <span class="op">=</span> <span class="kw">ref</span> <span class="fu">GetStackBasedData</span><span class="op">(</span>data<span class="op">);</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Returned Data: {returnedData.Value}"</span><span class="op">);</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">PrintStackBasedData</span><span class="op">(</span>StackBasedData data<span class="op">)</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Data: {data.Value}"</span><span class="op">);</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">ref</span> StackBasedData <span class="fu">GetStackBasedData</span><span class="op">(</span>StackBasedData data<span class="op">)</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> <span class="kw">ref</span> data<span class="op">;</span> <span class="co">// ref 반환</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>네<span class="op">,</span> `Span<span class="op">&lt;</span>T<span class="op">&gt;</span>`와 `ref struct`를 사용했을 때 성능 및 안전성 측면에서 얻을 수 있는 장점을 보여주는 간단한 예제를 C#으로 작성해 보겠습니다<span class="op">.</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>예제 <span class="dv">1</span><span class="op">:</span> `Span<span class="op">&lt;</span>T<span class="op">&gt;</span>`를 사용한 문자열 파싱 성능 향상</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>```csharp</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> System<span class="op">;</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Diagnostics</span><span class="op">;</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> SpanExample</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">(</span><span class="dt">string</span><span class="op">[]</span> args<span class="op">)</span></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>        <span class="dt">string</span> largeString <span class="op">=</span> <span class="kw">new</span> <span class="dt">string</span><span class="op">(</span><span class="ch">'A'</span><span class="op">,</span> <span class="dv">1000000</span><span class="op">)</span> <span class="op">+</span> <span class="st">",12345,67890"</span><span class="op">;</span> <span class="co">// 큰 문자열 생성</span></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 일반적인 문자열 처리 방법 (Substring)</span></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>        Stopwatch sw <span class="op">=</span> Stopwatch<span class="op">.</span><span class="fu">StartNew</span><span class="op">();</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>        <span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">1000</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>            <span class="dt">string</span> sub1 <span class="op">=</span> largeString<span class="op">.</span><span class="fu">Substring</span><span class="op">(</span>largeString<span class="op">.</span><span class="fu">IndexOf</span><span class="op">(</span><span class="ch">','</span><span class="op">)</span> <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>            <span class="dt">string</span> sub2 <span class="op">=</span> sub1<span class="op">.</span><span class="fu">Substring</span><span class="op">(</span>sub1<span class="op">.</span><span class="fu">IndexOf</span><span class="op">(</span><span class="ch">','</span><span class="op">)</span> <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>            _ <span class="op">=</span> <span class="dt">int</span><span class="op">.</span><span class="fu">Parse</span><span class="op">(</span>sub2<span class="op">);</span></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>        sw<span class="op">.</span><span class="fu">Stop</span><span class="op">();</span></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Substring Elapsed: {sw.ElapsedMilliseconds} ms"</span><span class="op">);</span></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Span&lt;T&gt;을 사용한 문자열 처리 방법</span></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>        sw <span class="op">=</span> Stopwatch<span class="op">.</span><span class="fu">StartNew</span><span class="op">();</span></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>        <span class="kw">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">1000</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>             ReadOnlySpan<span class="op">&lt;</span><span class="dt">char</span><span class="op">&gt;</span> span <span class="op">=</span> largeString<span class="op">.</span><span class="fu">AsSpan</span><span class="op">();</span></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>             ReadOnlySpan<span class="op">&lt;</span><span class="dt">char</span><span class="op">&gt;</span> sub1 <span class="op">=</span> span<span class="op">.</span><span class="fu">Slice</span><span class="op">(</span>span<span class="op">.</span><span class="fu">IndexOf</span><span class="op">(</span><span class="ch">','</span><span class="op">)</span> <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>             ReadOnlySpan<span class="op">&lt;</span><span class="dt">char</span><span class="op">&gt;</span> sub2 <span class="op">=</span> sub1<span class="op">.</span><span class="fu">Slice</span><span class="op">(</span>sub1<span class="op">.</span><span class="fu">IndexOf</span><span class="op">(</span><span class="ch">','</span><span class="op">)</span> <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>            _ <span class="op">=</span> <span class="dt">int</span><span class="op">.</span><span class="fu">Parse</span><span class="op">(</span>sub2<span class="op">);</span></span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>        sw<span class="op">.</span><span class="fu">Stop</span><span class="op">();</span></span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Span Elapsed: {sw.ElapsedMilliseconds} ms"</span><span class="op">);</span></span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> RefStructExample</span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>     <span class="co">// ref struct 예시</span></span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">ref</span> <span class="kw">struct</span> StackBasedData</span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>        <span class="kw">public</span> <span class="dt">int</span> Value<span class="op">;</span></span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>        <span class="kw">public</span> <span class="fu">StackBasedData</span><span class="op">(</span><span class="dt">int</span> value<span class="op">)</span></span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>            Value <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">(</span><span class="dt">string</span><span class="op">[]</span> args<span class="op">)</span></span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>        StackBasedData data <span class="op">=</span> <span class="kw">new</span> <span class="fu">StackBasedData</span><span class="op">(</span><span class="dv">10</span><span class="op">);</span> <span class="co">// 스택에 할당됨</span></span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 오류: ref struct는 힙에 할당될 수 없으므로 아래와 같이 사용할 수 없음</span></span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a>        <span class="co">// object boxedData = data;</span></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ref struct를 인수로 받는 메서드 호출</span></span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a>         <span class="fu">PrintStackBasedData</span><span class="op">(</span>data<span class="op">);</span></span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ref struct를 반환하는 메서드 호출</span></span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>        <span class="kw">ref</span> StackBasedData returnedData <span class="op">=</span> <span class="kw">ref</span> <span class="fu">GetStackBasedData</span><span class="op">(</span>data<span class="op">);</span></span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Returned Data: {returnedData.Value}"</span><span class="op">);</span></span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">PrintStackBasedData</span><span class="op">(</span>StackBasedData data<span class="op">)</span></span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"Data: {data.Value}"</span><span class="op">);</span></span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">ref</span> StackBasedData <span class="fu">GetStackBasedData</span><span class="op">(</span>StackBasedData data<span class="op">)</span></span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> <span class="kw">ref</span> data<span class="op">;</span> <span class="co">// ref 반환</span></span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="박싱과-언박싱boxing-and-unboxing" class="level2">
+<h2 class="anchored" data-anchor-id="박싱과-언박싱boxing-and-unboxing">박싱과 언박싱(boxing and unboxing)</h2>
+<ul>
+<li>박싱: 값 형식을 참조 형식인 <code>object</code> 형식으로 변환하는 과정, 힙에 새로운 객체를 할당하고 값 형식의 데이터를 복사</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> num <span class="op">=</span> <span class="dv">123</span><span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> boxed <span class="op">=</span> num<span class="op">;</span> <span class="co">// int -&gt; object로 박싱</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>언박싱: <code>object</code> 형식에서 값 형식으로 다시 변환하는 과정, 힙에 저장된 데이터를 스택으로 복사</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> boxedNum <span class="op">=</span> <span class="dv">123</span><span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> unboxedNum <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>boxedNum<span class="op">;</span> <span class="co">// 언박싱: int 형식으로 명시적 캐스팅</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="문자열-다루기string-manipulation" class="level2">
+<h2 class="anchored" data-anchor-id="문자열-다루기string-manipulation">문자열 다루기(string manipulation)</h2>
+<ul>
+<li>찾기: 문자열 내에서 특정 문자 또는 문자열의 위치를 찾는 메서드(<code>IndexOf</code>, <code>LastIndexOf</code>, <code>Contains</code> 등)</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> greeting <span class="op">=</span> <span class="st">"Hello World"</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> indexOfW <span class="op">=</span> greeting<span class="op">.</span><span class="fu">IndexOf</span><span class="op">(</span><span class="ch">'W'</span><span class="op">);</span> <span class="co">// 6</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> hasHello <span class="op">=</span> greeting<span class="op">.</span><span class="fu">Contains</span><span class="op">(</span><span class="st">"Hello"</span><span class="op">);</span> <span class="co">// true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>변형: 문자열의 내용을 변경하는 메서드(<code>ToUpper</code>, <code>ToLower</code>, <code>Trim</code>, <code>Replace</code> 등)</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> sample <span class="op">=</span> <span class="st">"  Hello World  "</span><span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> upper <span class="op">=</span> sample<span class="op">.</span><span class="fu">ToUpper</span><span class="op">();</span> <span class="co">// "  HELLO WORLD  "</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> trimmed <span class="op">=</span> sample<span class="op">.</span><span class="fu">Trim</span><span class="op">();</span>  <span class="co">// "Hello World"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> replaced <span class="op">=</span> sample<span class="op">.</span><span class="fu">Replace</span><span class="op">(</span><span class="st">"World"</span><span class="op">,</span> <span class="st">"C#"</span><span class="op">);</span> <span class="co">// "  Hello C#  "</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>분할: 문자열을 특정 구분자를 기준으로 여러 부분으로 나누는 메서드(<code>Split</code>)</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> fruitList <span class="op">=</span> <span class="st">"Apple,Banana,Cherry"</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span><span class="op">[]</span> fruits <span class="op">=</span> fruitList<span class="op">.</span><span class="fu">Split</span><span class="op">(</span><span class="ch">','</span><span class="op">);</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">// fruits[0] = "Apple"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">// fruits[1] = "Banana"</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">// fruits[2] = "Cherry"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>서식: 문자열의 형식을 지정하는 방법(<code>string.Format</code>, 보간된 문자열 <code>$""</code>)</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> name <span class="op">=</span> <span class="st">"홍길동"</span><span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">// 1) string.Format 사용</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> result1 <span class="op">=</span> <span class="dt">string</span><span class="op">.</span><span class="fu">Format</span><span class="op">(</span><span class="st">"이름: {0}, 나이: {1}"</span><span class="op">,</span> name<span class="op">,</span> age<span class="op">);</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">// 2) 보간 문자열 사용($"" 또는 @$"")</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> result2 <span class="op">=</span> $<span class="st">"이름: {name}, 나이: {age}"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="데이터를-가공하는-연산자operators" class="level2">
+<h2 class="anchored" data-anchor-id="데이터를-가공하는-연산자operators">데이터를 가공하는 연산자(operators)</h2>
+<ul>
+<li>산술 연산자: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code></li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> y <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>x <span class="op">+</span> y<span class="op">);</span> <span class="co">// 13</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>x <span class="op">-</span> y<span class="op">);</span> <span class="co">// 7</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>x <span class="op">*</span> y<span class="op">);</span> <span class="co">// 30</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>x <span class="op">/</span> y<span class="op">);</span> <span class="co">// 3  (정수 나눗셈)</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>x <span class="op">%</span> y<span class="op">);</span> <span class="co">// 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>증가 연산자와 감소 연산자: <code>++</code>, <code>--</code> (전위, 후위)</li>
+</ul>
+<div class="sourceCode" id="cb14"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> num <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>num<span class="op">++);</span> <span class="co">// 5 (출력 후에 증가)</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>num<span class="op">);</span>   <span class="co">// 6</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(++</span>num<span class="op">);</span> <span class="co">// 7 (미리 증가 후에 출력)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>문자열 결합 연산자: <code>+</code></li>
+</ul>
+<div class="sourceCode" id="cb15"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> hello <span class="op">=</span> <span class="st">"Hello"</span><span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> world <span class="op">=</span> <span class="st">"World"</span><span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> combined <span class="op">=</span> hello <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> world<span class="op">;</span> <span class="co">// "Hello World"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>관계 연산자: <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code></li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> b <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>a <span class="op">==</span> b<span class="op">);</span> <span class="co">// false</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>a <span class="op">!=</span> b<span class="op">);</span> <span class="co">// true</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>a <span class="op">&gt;</span> b<span class="op">);</span>  <span class="co">// false</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>논리 연산자: <code>&amp;&amp;</code>, <code>||</code>, <code>!</code></li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> c <span class="op">=</span> <span class="kw">true</span><span class="op">,</span> d <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>c <span class="op">&amp;&amp;</span> d<span class="op">);</span> <span class="co">// false</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>c <span class="op">||</span> d<span class="op">);</span> <span class="co">// true</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(!</span>c<span class="op">);</span>     <span class="co">// false</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>조건 연산자 (삼항 연산자): <code>?:</code></li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> score <span class="op">=</span> <span class="dv">85</span><span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> result <span class="op">=</span> <span class="op">(</span>score <span class="op">&gt;=</span> <span class="dv">60</span><span class="op">)</span> <span class="op">?</span> <span class="st">"합격"</span> <span class="op">:</span> <span class="st">"불합격"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>비트 연산자: <code>&amp;</code>, <code>|</code>, <code>^</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code></li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> e <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>    <span class="co">// 1010 (2진수)</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> f <span class="op">=</span> <span class="dv">12</span><span class="op">;</span>    <span class="co">// 1100 (2진수)</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>e <span class="op">&amp;</span> f<span class="op">);</span> <span class="co">// 8 (1000)</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>e <span class="op">|</span> f<span class="op">);</span> <span class="co">// 14(1110)</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>e <span class="op">^</span> f<span class="op">);</span> <span class="co">// 6 (0110)</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> g <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>g <span class="op">&lt;&lt;</span> <span class="dv">2</span><span class="op">);</span> <span class="co">// 4  (1을 왼쪽으로 2비트 이동)</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>g <span class="op">&gt;&gt;</span> <span class="dv">1</span><span class="op">);</span> <span class="co">// 0  (1을 오른쪽으로 1비트 이동)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>할당 연산자: <code>=</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code>, <code>&amp;=</code>, <code>|=</code>, <code>^=</code>, <code>&lt;&lt;=</code>, <code>&gt;&gt;=</code></li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> h <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>h <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span>  <span class="co">// h = 15</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>h <span class="op">&lt;&lt;=</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// h = 30 (이진수로 한 칸 왼쪽 이동)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>null 조건부 연산자: <code>?.</code> (null인 경우 null 반환),</li>
+<li>null 병합 연산자: <code>??</code> (null인 경우 다른 값 반환)</li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span><span class="op">?</span> nullString <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">?</span> length <span class="op">=</span> nullString<span class="op">?.</span><span class="fu">Length</span><span class="op">;</span> <span class="co">// nullString이 null이면 전체 결과가 null</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span><span class="op">?</span> maybeNull <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="dt">string</span> resultString <span class="op">=</span> maybeNull <span class="op">??</span> <span class="st">"값이 null이었어요"</span><span class="op">;</span> </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">// maybeNull이 null이면 뒤의 "값이 null이었어요" 대입</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="기타-형식-관련-내용" class="level2">
+<h2 class="anchored" data-anchor-id="기타-형식-관련-내용">기타 형식 관련 내용</h2>
+<ul>
+<li>데이터 형식 바꾸기(type conversion):
+<ul>
+<li>암시적 변환 (Implicit Conversion): 데이터 손실이 없는 경우 자동으로 수행되는 변환</li>
+<li>명시적 변환 (Explicit Conversion/Casting): 데이터 손실이 발생할 수 있는 경우 명시적으로 지정해야 하는 변환</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb22"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">long</span> bigNum <span class="op">=</span> <span class="dv">123456789</span><span class="op">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> smallerNum <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span>bigNum<span class="op">;</span> <span class="co">// 명시적 캐스팅</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>상수(const): 컴파일 시간에 값이 결정되는 변하지 않는 값</li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">double</span> PI <span class="op">=</span> <span class="fl">3.141592</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>nullable 형식(nullable types): 값 형식이 <code>null</code> 값을 가질 수 있도록 하는 형식. <code>int?</code>, <code>bool?</code> 등의 형태로 사용</li>
+</ul>
+<div class="sourceCode" id="cb24"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">?</span> x <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>var 형식(var keyword): 컴파일러가 변수의 형식을 추론하도록 하는 키워드. 지역 변수 선언 시에만 사용 가능</li>
+</ul>
+<div class="sourceCode" id="cb25"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> number <span class="op">=</span> <span class="dv">10</span><span class="op">;</span>      <span class="co">// number는 int로 추론</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> text <span class="op">=</span> <span class="st">"Hello"</span><span class="op">;</span>   <span class="co">// text는 string으로 추론</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>공용 형식 시스템(common type system, cts): .NET 런타임 환경에서 모든 형식이 어떻게 표현되고 사용되는지를 정의하는 명세(int → System.Int32, string → System.String 등)</li>
+</ul>
+<section id="예제" class="level3">
+<h3 class="anchored" data-anchor-id="예제">예제</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> System<span class="op">;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Person</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Name<span class="op">;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Program</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">static</span> <span class="dt">void</span> <span class="fu">Main</span><span class="op">()</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 값 형식 예시</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> valueA <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> valueB <span class="op">=</span> valueA<span class="op">;</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>        valueB <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"valueA = {valueA}, valueB = {valueB}"</span><span class="op">);</span> </span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">// valueA = 10, valueB = 20 (복사본이기 때문)</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 참조 형식 예시</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>        Person person1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Person</span><span class="op">();</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>        person1<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Kim"</span><span class="op">;</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>        Person person2 <span class="op">=</span> person1<span class="op">;</span> <span class="co">// 같은 참조를 복사</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>        person2<span class="op">.</span><span class="fu">Name</span> <span class="op">=</span> <span class="st">"Lee"</span><span class="op">;</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"person1.Name = {person1.Name}, person2.Name = {person2.Name}"</span><span class="op">);</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">// person1.Name = Lee, person2.Name = Lee (같은 객체 참조)</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="패턴-매칭" class="level2">
+<h2 class="anchored" data-anchor-id="패턴-매칭">패턴 매칭</h2>
+<p>C#의 패턴 매칭(Pattern Matching)은 데이터의 구조와 값에 따라 코드를 분기하거나 특정 데이터를 추출하는 강력한 기능입니다. 기존의 <code>if</code>문이나 <code>switch</code>문을 사용하는 것보다 더 간결하고 가독성이 좋은 코드를 작성할 수 있도록 도와줍니다. C# 7.0부터 도입되어 이후 버전에서 지속적으로 확장되고 있으며, 현재 C#의 중요한 기능 중 하나로 자리 잡았습니다.</p>
+<p>패턴 매칭은 특정 데이터가 어떤 패턴과 일치하는지 확인하고, 일치하는 패턴에 따라 다른 동작을 수행하는 과정입니다. C#에서는 다양한 형태의 패턴을 사용할 수 있으며, 이를 통해 복잡한 조건 분기를 쉽게 처리할 수 있습니다.</p>
+<section id="주요-패턴-종류" class="level3">
+<h3 class="anchored" data-anchor-id="주요-패턴-종류">주요 패턴 종류</h3>
+<section id="상수-패턴constant-pattern-특정-상수-값과-일치하는지-확인합니다." class="level4">
+<h4 class="anchored" data-anchor-id="상수-패턴constant-pattern-특정-상수-값과-일치하는지-확인합니다.">상수 패턴(Constant Pattern): 특정 상수 값과 일치하는지 확인합니다.</h4>
+<div class="sourceCode" id="cb27"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dv">10</span><span class="op">)</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is 10"</span><span class="op">);</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="타입-패턴type-pattern-특정-타입인지-확인하고-해당-타입으로-변환합니다." class="level4">
+<h4 class="anchored" data-anchor-id="타입-패턴type-pattern-특정-타입인지-확인하고-해당-타입으로-변환합니다.">타입 패턴(Type Pattern): 특정 타입인지 확인하고, 해당 타입으로 변환합니다.</h4>
+<div class="sourceCode" id="cb28"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="st">"hello"</span><span class="op">;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dt">string</span> str<span class="op">)</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"obj is a string: {str}"</span><span class="op">);</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="변수-패턴var-pattern-모든-값과-일치하며-값을-새로운-변수에-할당합니다." class="level4">
+<h4 class="anchored" data-anchor-id="변수-패턴var-pattern-모든-값과-일치하며-값을-새로운-변수에-할당합니다.">변수 패턴(Var Pattern): 모든 값과 일치하며, 값을 새로운 변수에 할당합니다.</h4>
+<div class="sourceCode" id="cb29"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dt">var</span> value<span class="op">)</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"obj value: {value}"</span><span class="op">);</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="버리기-패턴discard-pattern-값과-일치하지만-값을-변수에-할당하지-않고-버립니다." class="level4">
+<h4 class="anchored" data-anchor-id="버리기-패턴discard-pattern-값과-일치하지만-값을-변수에-할당하지-않고-버립니다.">버리기 패턴(Discard Pattern): 값과 일치하지만, 값을 변수에 할당하지 않고 버립니다.</h4>
+<div class="sourceCode" id="cb30"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span><span class="op">(</span>obj <span class="kw">is</span> not <span class="kw">null</span><span class="op">)</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span> </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 변수에 할당하지 않고 단순히 null 이 아님을 검사</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"obj is not null"</span><span class="op">);</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> _<span class="op">)</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is something, but I don't care"</span><span class="op">);</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="속성-패턴property-pattern-객체의-특정-속성-값과-일치하는지-확인합니다." class="level4">
+<h4 class="anchored" data-anchor-id="속성-패턴property-pattern-객체의-특정-속성-값과-일치하는지-확인합니다.">속성 패턴(Property Pattern): 객체의 특정 속성 값과 일치하는지 확인합니다.</h4>
+<div class="sourceCode" id="cb31"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Person <span class="op">{</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Age <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>Person person <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span><span class="op">,</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>person <span class="kw">is</span> <span class="op">{</span> Name<span class="op">:</span> <span class="st">"Alice"</span><span class="op">,</span> Age<span class="op">:</span> <span class="dv">30</span> <span class="op">})</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"person is Alice, 30 years old"</span><span class="op">);</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="위치-패턴positional-pattern-객체의-생성자-또는-deconstruct-메서드를-통해-분해된-값과-일치하는지-확인합니다." class="level4">
+<h4 class="anchored" data-anchor-id="위치-패턴positional-pattern-객체의-생성자-또는-deconstruct-메서드를-통해-분해된-값과-일치하는지-확인합니다.">위치 패턴(Positional Pattern): 객체의 생성자 또는 <code>Deconstruct</code> 메서드를 통해 분해된 값과 일치하는지 확인합니다.</h4>
+<div class="sourceCode" id="cb32"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Point <span class="op">{</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> X <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Y <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Deconstruct</span><span class="op">(</span><span class="kw">out</span> <span class="dt">int</span> x<span class="op">,</span> <span class="kw">out</span> <span class="dt">int</span> y<span class="op">)</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> X<span class="op">;</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> Y<span class="op">;</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>Point point <span class="op">=</span> <span class="kw">new</span> Point <span class="op">{</span> X <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> Y <span class="op">=</span> <span class="dv">20</span> <span class="op">};</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>point <span class="kw">is</span> <span class="op">(</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">))</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"point is (10, 20)"</span><span class="op">);</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="관계형-패턴relational-pattern-값의-관계를-확인합니다." class="level4">
+<h4 class="anchored" data-anchor-id="관계형-패턴relational-pattern-값의-관계를-확인합니다.">관계형 패턴(Relational Pattern): 값의 관계를 확인합니다. (&gt;, &lt;, &gt;=, &lt;=)</h4>
+<div class="sourceCode" id="cb33"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>age <span class="kw">is</span> <span class="op">&gt;</span> <span class="dv">18</span><span class="op">)</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"age is greater than 18"</span><span class="op">);</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="논리-패턴logical-pattern-패턴들을-조합하여-복잡한-조건을-만듭니다.-and-or-not" class="level4">
+<h4 class="anchored" data-anchor-id="논리-패턴logical-pattern-패턴들을-조합하여-복잡한-조건을-만듭니다.-and-or-not">논리 패턴(Logical Pattern): 패턴들을 조합하여 복잡한 조건을 만듭니다. (and, or, not)</h4>
+<div class="sourceCode" id="cb34"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> num <span class="op">=</span> <span class="dv">15</span><span class="op">;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>num <span class="kw">is</span> <span class="op">&gt;</span> <span class="dv">10</span> and <span class="op">&lt;</span> <span class="dv">20</span><span class="op">)</span> <span class="co">// and 패턴</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"num is between 10 and 20"</span><span class="op">);</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>num <span class="kw">is</span> <span class="op">&lt;</span> <span class="dv">5</span> or <span class="op">&gt;</span> <span class="dv">20</span><span class="op">)</span> <span class="co">// or 패턴</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>      Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"num is less than 5 or greater than 20"</span><span class="op">);</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>num <span class="kw">is</span> not <span class="dv">10</span><span class="op">)</span> <span class="co">// not 패턴</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"num is not 10"</span><span class="op">);</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="리스트-패턴-list-pattern-리스트-혹은-배열의-구조를-확인합니다." class="level4">
+<h4 class="anchored" data-anchor-id="리스트-패턴-list-pattern-리스트-혹은-배열의-구조를-확인합니다.">리스트 패턴 (List Pattern): 리스트 혹은 배열의 구조를 확인합니다.</h4>
+<div class="sourceCode" id="cb35"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span> <span class="op">};</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>numbers <span class="kw">is</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> _<span class="op">,</span> <span class="dv">5</span><span class="op">])</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    onsole<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"List pattern matches with 1, 2, 3, *, 5"</span><span class="op">);</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="패턴-매칭의-활용" class="level3">
+<h3 class="anchored" data-anchor-id="패턴-매칭의-활용">패턴 매칭의 활용</h3>
+<ul>
+<li><code>is</code> 연산자: 특정 패턴과 일치하는지 확인합니다.</li>
+</ul>
+<div class="sourceCode" id="cb36"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dt">string</span> str<span class="op">)</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>switch</code> 문: 패턴에 따라 분기 처리를 합니다.</li>
+</ul>
+<div class="sourceCode" id="cb37"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="kw">switch</span> <span class="op">(</span>obj<span class="op">)</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="dt">int</span> i when i <span class="op">&gt;</span> <span class="dv">5</span><span class="op">:</span> <span class="co">// when절을 추가하여 더 복잡한 조건 설정가능</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is an int greater than 5"</span><span class="op">);</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="dt">string</span> str<span class="op">:</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"obj is a string: {str}"</span><span class="op">);</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="kw">null</span><span class="op">:</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is null"</span><span class="op">);</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">default</span><span class="op">:</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj does not match any cases"</span><span class="op">);</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="패턴-매칭의-장점" class="level3">
+<h3 class="anchored" data-anchor-id="패턴-매칭의-장점">패턴 매칭의 장점</h3>
+<ul>
+<li>가독성 향상: 복잡한 조건 분기를 더 명확하고 간결하게 표현할 수 있습니다.</li>
+<li>코드 간결화: 불필요한 타입 변환 및 조건 검사를 줄일 수 있습니다.</li>
+<li>유지 보수성 향상: 코드를 더 이해하고 변경하기 쉽도록 만들어줍니다.</li>
+<li>안정성: 타입 안정성이 향상되어 런타임 오류를 줄일 수 있습니다.</li>
+</ul>
+<p>C#의 패턴 매칭은 코드를 더욱 간결하고 가독성 있게 만들 뿐만 아니라, 복잡한 조건 분기를 쉽게 처리할 수 있도록 해주는 강력한 기능입니다. 다양한 종류의 패턴을 익히고 적절하게 활용한다면, 코드의 품질을 높이고 개발 생산성을 향상시킬 수 있을 것입니다.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
