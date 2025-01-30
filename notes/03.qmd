@@ -603,6 +603,28 @@ C#의 패턴 매칭(Pattern Matching)은 데이터의 구조와 값에 따라 �
 
 ### 주요 패턴 종류
 
+#### 선언 패턴(Declaration Pattern): 특정 객체가 예상한 형식인지 검사하면서 형식 변환을 수행할 수 있습니다.
+
+```csharp
+if (obj is string text)
+{
+    return $"문자열: {text}";
+}
+return "알 수 없는 타입";
+```
+
+#### 형식 패턴(Type Pattern): 객체가 특정 형식과 일치하는지 검사하는 데 사용됩니다.
+
+```csharp
+return obj switch
+{
+    int => "정수",
+    double => "실수",
+    string => "문자열",
+    _ => "알 수 없는 타입"
+};
+```
+
 #### 상수 패턴(Constant Pattern): 특정 상수 값과 일치하는지 확인합니다.
 
 ```csharp
@@ -611,45 +633,6 @@ object obj = 10;
 if (obj is 10)
 {
     Console.WriteLine("obj is 10");
-}
-```
-
-#### 타입 패턴(Type Pattern): 특정 타입인지 확인하고, 해당 타입으로 변환합니다.
-
-```csharp
-object obj = "hello";
-
-if (obj is string str)
-{
-    Console.WriteLine($"obj is a string: {str}");
-}
-```
-
-#### 변수 패턴(Var Pattern): 모든 값과 일치하며, 값을 새로운 변수에 할당합니다.
-
-```csharp
-object obj = 20;
-
-if (obj is var value)
-{
-    Console.WriteLine($"obj value: {value}");
-}
-```
-
-#### 버리기 패턴(Discard Pattern): 값과 일치하지만, 값을 변수에 할당하지 않고 버립니다.
-
-```csharp
-object obj = null;
-
-if(obj is not null)
-{ 
-    // 변수에 할당하지 않고 단순히 null 이 아님을 검사
-    Console.WriteLine($"obj is not null");
-}
-
-if (obj is _)
-{
-    Console.WriteLine("obj is something, but I don't care");
 }
 ```
 
@@ -666,25 +649,6 @@ Person person = new Person { Name = "Alice", Age = 30 };
 if (person is { Name: "Alice", Age: 30 })
 {
     Console.WriteLine("person is Alice, 30 years old");
-}
-```
-
-#### 위치 패턴(Positional Pattern): 객체의 생성자 또는 `Deconstruct` 메서드를 통해 분해된 값과 일치하는지 확인합니다.
-
-```csharp
-public class Point {
-    public int X { get; set; }
-    public int Y { get; set; }
-    public void Deconstruct(out int x, out int y)
-    {
-        x = X;
-        y = Y;
-    }
-}
-Point point = new Point { X = 10, Y = 20 };
-if (point is (10, 20))
-{
-    Console.WriteLine("point is (10, 20)");
 }
 ```
 
@@ -718,7 +682,60 @@ if (num is not 10) // not 패턴
 }
 ```
 
-#### 리스트 패턴 (List Pattern): 리스트 혹은 배열의 구조를 확인합니다.
+#### 괄호 패턴(Parenthesized Pattern): 패턴을 그룹화하는 데 사용됩니다.
+
+```csharp
+return number is (> 0 and < 100);
+```
+
+#### 위치 패턴(Positional Pattern): 객체의 생성자 또는 `Deconstruct` 메서드를 통해 분해된 값과 일치하는지 확인합니다.
+
+```csharp
+public class Point {
+    public int X { get; set; }
+    public int Y { get; set; }
+    public void Deconstruct(out int x, out int y)
+    {
+        x = X;
+        y = Y;
+    }
+}
+Point point = new Point { X = 10, Y = 20 };
+if (point is (10, 20))
+{
+    Console.WriteLine("point is (10, 20)");
+}
+```
+
+#### 변수 패턴(Var Pattern): 모든 값과 일치하며, 값을 새로운 변수에 할당합니다.
+
+```csharp
+object obj = 20;
+
+if (obj is var value)
+{
+    Console.WriteLine($"obj value: {value}");
+}
+```
+
+#### 버리기 패턴(Discard Pattern): 값과 일치하지만, 값을 변수에 할당하지 않고 버립니다.
+
+```csharp
+object obj = null;
+
+if(obj is not null)
+{ 
+    // 변수에 할당하지 않고 단순히 null 이 아님을 검사
+    Console.WriteLine($"obj is not null");
+}
+
+if (obj is _)
+{
+    Console.WriteLine("obj is something, but I don't care");
+}
+```
+
+#### 리스트 패턴(List Pattern): 리스트 혹은 배열의 구조를 확인합니다.
 
 ```csharp
 int[] numbers = { 1, 2, 3, 4, 5 };

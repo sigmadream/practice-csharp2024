@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace DS.LabCodes
+namespace DS.Lab
 {
     public class JsonParserPatternMatching
     {

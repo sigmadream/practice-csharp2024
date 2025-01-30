@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DS.LabCodes
+namespace DS.Lab
 {
     public class JsonParserTraditional
     {

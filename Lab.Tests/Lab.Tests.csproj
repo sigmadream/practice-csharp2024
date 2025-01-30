@@ -18,15 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DS\DS.csproj" />
+    <ProjectReference Include="..\Lab\Lab.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="NUnit.Framework" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="LabCodes\" />
   </ItemGroup>
 
 </Project>

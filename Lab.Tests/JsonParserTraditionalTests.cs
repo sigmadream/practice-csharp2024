@@ -1,4 +1,4 @@
-namespace DS.LabCodes.Tests
+namespace DS.Lab.Tests
 {
     [TestFixture]
     public class JsonParserTraditionalTests

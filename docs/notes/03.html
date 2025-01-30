@@ -840,112 +840,125 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>패턴 매칭은 특정 데이터가 어떤 패턴과 일치하는지 확인하고, 일치하는 패턴에 따라 다른 동작을 수행하는 과정입니다. C#에서는 다양한 형태의 패턴을 사용할 수 있으며, 이를 통해 복잡한 조건 분기를 쉽게 처리할 수 있습니다.</p>
 <section id="주요-패턴-종류" class="level3">
 <h3 class="anchored" data-anchor-id="주요-패턴-종류">주요 패턴 종류</h3>
+<section id="선언-패턴declaration-pattern-특정-객체가-예상한-형식인지-검사하면서-형식-변환을-수행할-수-있습니다." class="level4">
+<h4 class="anchored" data-anchor-id="선언-패턴declaration-pattern-특정-객체가-예상한-형식인지-검사하면서-형식-변환을-수행할-수-있습니다.">선언 패턴(Declaration Pattern): 특정 객체가 예상한 형식인지 검사하면서 형식 변환을 수행할 수 있습니다.</h4>
+<div class="sourceCode" id="cb27"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dt">string</span> text<span class="op">)</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> $<span class="st">"문자열: {text}"</span><span class="op">;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> <span class="st">"알 수 없는 타입"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="형식-패턴type-pattern-객체가-특정-형식과-일치하는지-검사하는-데-사용됩니다." class="level4">
+<h4 class="anchored" data-anchor-id="형식-패턴type-pattern-객체가-특정-형식과-일치하는지-검사하는-데-사용됩니다.">형식 패턴(Type Pattern): 객체가 특정 형식과 일치하는지 검사하는 데 사용됩니다.</h4>
+<div class="sourceCode" id="cb28"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> obj <span class="kw">switch</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">=&gt;</span> <span class="st">"정수"</span><span class="op">,</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="op">=&gt;</span> <span class="st">"실수"</span><span class="op">,</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">string</span> <span class="op">=&gt;</span> <span class="st">"문자열"</span><span class="op">,</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    _ <span class="op">=&gt;</span> <span class="st">"알 수 없는 타입"</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 <section id="상수-패턴constant-pattern-특정-상수-값과-일치하는지-확인합니다." class="level4">
 <h4 class="anchored" data-anchor-id="상수-패턴constant-pattern-특정-상수-값과-일치하는지-확인합니다.">상수 패턴(Constant Pattern): 특정 상수 값과 일치하는지 확인합니다.</h4>
-<div class="sourceCode" id="cb27"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dv">10</span><span class="op">)</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is 10"</span><span class="op">);</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="타입-패턴type-pattern-특정-타입인지-확인하고-해당-타입으로-변환합니다." class="level4">
-<h4 class="anchored" data-anchor-id="타입-패턴type-pattern-특정-타입인지-확인하고-해당-타입으로-변환합니다.">타입 패턴(Type Pattern): 특정 타입인지 확인하고, 해당 타입으로 변환합니다.</h4>
-<div class="sourceCode" id="cb28"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="st">"hello"</span><span class="op">;</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dt">string</span> str<span class="op">)</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"obj is a string: {str}"</span><span class="op">);</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="변수-패턴var-pattern-모든-값과-일치하며-값을-새로운-변수에-할당합니다." class="level4">
-<h4 class="anchored" data-anchor-id="변수-패턴var-pattern-모든-값과-일치하며-값을-새로운-변수에-할당합니다.">변수 패턴(Var Pattern): 모든 값과 일치하며, 값을 새로운 변수에 할당합니다.</h4>
-<div class="sourceCode" id="cb29"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<div class="sourceCode" id="cb29"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dt">var</span> value<span class="op">)</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dv">10</span><span class="op">)</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"obj value: {value}"</span><span class="op">);</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is 10"</span><span class="op">);</span></span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="버리기-패턴discard-pattern-값과-일치하지만-값을-변수에-할당하지-않고-버립니다." class="level4">
-<h4 class="anchored" data-anchor-id="버리기-패턴discard-pattern-값과-일치하지만-값을-변수에-할당하지-않고-버립니다.">버리기 패턴(Discard Pattern): 값과 일치하지만, 값을 변수에 할당하지 않고 버립니다.</h4>
-<div class="sourceCode" id="cb30"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span><span class="op">(</span>obj <span class="kw">is</span> not <span class="kw">null</span><span class="op">)</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span> </span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 변수에 할당하지 않고 단순히 null 이 아님을 검사</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"obj is not null"</span><span class="op">);</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> _<span class="op">)</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is something, but I don't care"</span><span class="op">);</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="속성-패턴property-pattern-객체의-특정-속성-값과-일치하는지-확인합니다." class="level4">
 <h4 class="anchored" data-anchor-id="속성-패턴property-pattern-객체의-특정-속성-값과-일치하는지-확인합니다.">속성 패턴(Property Pattern): 객체의 특정 속성 값과 일치하는지 확인합니다.</h4>
-<div class="sourceCode" id="cb31"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Person <span class="op">{</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Age <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>Person person <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span><span class="op">,</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>person <span class="kw">is</span> <span class="op">{</span> Name<span class="op">:</span> <span class="st">"Alice"</span><span class="op">,</span> Age<span class="op">:</span> <span class="dv">30</span> <span class="op">})</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"person is Alice, 30 years old"</span><span class="op">);</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="위치-패턴positional-pattern-객체의-생성자-또는-deconstruct-메서드를-통해-분해된-값과-일치하는지-확인합니다." class="level4">
-<h4 class="anchored" data-anchor-id="위치-패턴positional-pattern-객체의-생성자-또는-deconstruct-메서드를-통해-분해된-값과-일치하는지-확인합니다.">위치 패턴(Positional Pattern): 객체의 생성자 또는 <code>Deconstruct</code> 메서드를 통해 분해된 값과 일치하는지 확인합니다.</h4>
-<div class="sourceCode" id="cb32"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Point <span class="op">{</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> X <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Y <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Deconstruct</span><span class="op">(</span><span class="kw">out</span> <span class="dt">int</span> x<span class="op">,</span> <span class="kw">out</span> <span class="dt">int</span> y<span class="op">)</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> X<span class="op">;</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> Y<span class="op">;</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>Point point <span class="op">=</span> <span class="kw">new</span> Point <span class="op">{</span> X <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> Y <span class="op">=</span> <span class="dv">20</span> <span class="op">};</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>point <span class="kw">is</span> <span class="op">(</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">))</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"point is (10, 20)"</span><span class="op">);</span></span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Person <span class="op">{</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">string</span> Name <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Age <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>Person person <span class="op">=</span> <span class="kw">new</span> Person <span class="op">{</span> Name <span class="op">=</span> <span class="st">"Alice"</span><span class="op">,</span> Age <span class="op">=</span> <span class="dv">30</span> <span class="op">};</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>person <span class="kw">is</span> <span class="op">{</span> Name<span class="op">:</span> <span class="st">"Alice"</span><span class="op">,</span> Age<span class="op">:</span> <span class="dv">30</span> <span class="op">})</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"person is Alice, 30 years old"</span><span class="op">);</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="관계형-패턴relational-pattern-값의-관계를-확인합니다." class="level4">
 <h4 class="anchored" data-anchor-id="관계형-패턴relational-pattern-값의-관계를-확인합니다.">관계형 패턴(Relational Pattern): 값의 관계를 확인합니다. (&gt;, &lt;, &gt;=, &lt;=)</h4>
-<div class="sourceCode" id="cb33"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>age <span class="kw">is</span> <span class="op">&gt;</span> <span class="dv">18</span><span class="op">)</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"age is greater than 18"</span><span class="op">);</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> age <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>age <span class="kw">is</span> <span class="op">&gt;</span> <span class="dv">18</span><span class="op">)</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"age is greater than 18"</span><span class="op">);</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="논리-패턴logical-pattern-패턴들을-조합하여-복잡한-조건을-만듭니다.-and-or-not" class="level4">
 <h4 class="anchored" data-anchor-id="논리-패턴logical-pattern-패턴들을-조합하여-복잡한-조건을-만듭니다.-and-or-not">논리 패턴(Logical Pattern): 패턴들을 조합하여 복잡한 조건을 만듭니다. (and, or, not)</h4>
-<div class="sourceCode" id="cb34"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> num <span class="op">=</span> <span class="dv">15</span><span class="op">;</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>num <span class="kw">is</span> <span class="op">&gt;</span> <span class="dv">10</span> and <span class="op">&lt;</span> <span class="dv">20</span><span class="op">)</span> <span class="co">// and 패턴</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"num is between 10 and 20"</span><span class="op">);</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>num <span class="kw">is</span> <span class="op">&lt;</span> <span class="dv">5</span> or <span class="op">&gt;</span> <span class="dv">20</span><span class="op">)</span> <span class="co">// or 패턴</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>      Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"num is less than 5 or greater than 20"</span><span class="op">);</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>num <span class="kw">is</span> not <span class="dv">10</span><span class="op">)</span> <span class="co">// not 패턴</span></span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"num is not 10"</span><span class="op">);</span></span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> num <span class="op">=</span> <span class="dv">15</span><span class="op">;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>num <span class="kw">is</span> <span class="op">&gt;</span> <span class="dv">10</span> and <span class="op">&lt;</span> <span class="dv">20</span><span class="op">)</span> <span class="co">// and 패턴</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"num is between 10 and 20"</span><span class="op">);</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>num <span class="kw">is</span> <span class="op">&lt;</span> <span class="dv">5</span> or <span class="op">&gt;</span> <span class="dv">20</span><span class="op">)</span> <span class="co">// or 패턴</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>      Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"num is less than 5 or greater than 20"</span><span class="op">);</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>num <span class="kw">is</span> not <span class="dv">10</span><span class="op">)</span> <span class="co">// not 패턴</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"num is not 10"</span><span class="op">);</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="리스트-패턴-list-pattern-리스트-혹은-배열의-구조를-확인합니다." class="level4">
-<h4 class="anchored" data-anchor-id="리스트-패턴-list-pattern-리스트-혹은-배열의-구조를-확인합니다.">리스트 패턴 (List Pattern): 리스트 혹은 배열의 구조를 확인합니다.</h4>
-<div class="sourceCode" id="cb35"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span> <span class="op">};</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>numbers <span class="kw">is</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> _<span class="op">,</span> <span class="dv">5</span><span class="op">])</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    onsole<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"List pattern matches with 1, 2, 3, *, 5"</span><span class="op">);</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="괄호-패턴parenthesized-pattern-패턴을-그룹화하는-데-사용됩니다." class="level4">
+<h4 class="anchored" data-anchor-id="괄호-패턴parenthesized-pattern-패턴을-그룹화하는-데-사용됩니다.">괄호 패턴(Parenthesized Pattern): 패턴을 그룹화하는 데 사용됩니다.</h4>
+<div class="sourceCode" id="cb33"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> number <span class="kw">is</span> <span class="op">(&gt;</span> <span class="dv">0</span> and <span class="op">&lt;</span> <span class="dv">100</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="위치-패턴positional-pattern-객체의-생성자-또는-deconstruct-메서드를-통해-분해된-값과-일치하는지-확인합니다." class="level4">
+<h4 class="anchored" data-anchor-id="위치-패턴positional-pattern-객체의-생성자-또는-deconstruct-메서드를-통해-분해된-값과-일치하는지-확인합니다.">위치 패턴(Positional Pattern): 객체의 생성자 또는 <code>Deconstruct</code> 메서드를 통해 분해된 값과 일치하는지 확인합니다.</h4>
+<div class="sourceCode" id="cb34"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Point <span class="op">{</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> X <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> Y <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Deconstruct</span><span class="op">(</span><span class="kw">out</span> <span class="dt">int</span> x<span class="op">,</span> <span class="kw">out</span> <span class="dt">int</span> y<span class="op">)</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> X<span class="op">;</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> Y<span class="op">;</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>Point point <span class="op">=</span> <span class="kw">new</span> Point <span class="op">{</span> X <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> Y <span class="op">=</span> <span class="dv">20</span> <span class="op">};</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>point <span class="kw">is</span> <span class="op">(</span><span class="dv">10</span><span class="op">,</span> <span class="dv">20</span><span class="op">))</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"point is (10, 20)"</span><span class="op">);</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="변수-패턴var-pattern-모든-값과-일치하며-값을-새로운-변수에-할당합니다." class="level4">
+<h4 class="anchored" data-anchor-id="변수-패턴var-pattern-모든-값과-일치하며-값을-새로운-변수에-할당합니다.">변수 패턴(Var Pattern): 모든 값과 일치하며, 값을 새로운 변수에 할당합니다.</h4>
+<div class="sourceCode" id="cb35"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dt">var</span> value<span class="op">)</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"obj value: {value}"</span><span class="op">);</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="버리기-패턴discard-pattern-값과-일치하지만-값을-변수에-할당하지-않고-버립니다." class="level4">
+<h4 class="anchored" data-anchor-id="버리기-패턴discard-pattern-값과-일치하지만-값을-변수에-할당하지-않고-버립니다.">버리기 패턴(Discard Pattern): 값과 일치하지만, 값을 변수에 할당하지 않고 버립니다.</h4>
+<div class="sourceCode" id="cb36"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span><span class="op">(</span>obj <span class="kw">is</span> not <span class="kw">null</span><span class="op">)</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 변수에 할당하지 않고 단순히 null 이 아님을 검사</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"obj is not null"</span><span class="op">);</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> _<span class="op">)</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is something, but I don't care"</span><span class="op">);</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="리스트-패턴list-pattern-리스트-혹은-배열의-구조를-확인합니다." class="level4">
+<h4 class="anchored" data-anchor-id="리스트-패턴list-pattern-리스트-혹은-배열의-구조를-확인합니다.">리스트 패턴(List Pattern): 리스트 혹은 배열의 구조를 확인합니다.</h4>
+<div class="sourceCode" id="cb37"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> numbers <span class="op">=</span> <span class="op">{</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span> <span class="op">};</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>numbers <span class="kw">is</span> <span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> _<span class="op">,</span> <span class="dv">5</span><span class="op">])</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    onsole<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"List pattern matches with 1, 2, 3, *, 5"</span><span class="op">);</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="패턴-매칭의-활용" class="level3">
@@ -953,29 +966,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><code>is</code> 연산자: 특정 패턴과 일치하는지 확인합니다.</li>
 </ul>
-<div class="sourceCode" id="cb36"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dt">string</span> str<span class="op">)</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="dt">string</span> str<span class="op">)</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li><code>switch</code> 문: 패턴에 따라 분기 처리를 합니다.</li>
 </ul>
-<div class="sourceCode" id="cb37"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="kw">switch</span> <span class="op">(</span>obj<span class="op">)</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="dt">int</span> i when i <span class="op">&gt;</span> <span class="dv">5</span><span class="op">:</span> <span class="co">// when절을 추가하여 더 복잡한 조건 설정가능</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is an int greater than 5"</span><span class="op">);</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="dt">string</span> str<span class="op">:</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"obj is a string: {str}"</span><span class="op">);</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="kw">null</span><span class="op">:</span></span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is null"</span><span class="op">);</span></span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">default</span><span class="op">:</span></span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj does not match any cases"</span><span class="op">);</span></span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode csharp code-with-copy"><code class="sourceCode cs"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="dt">object</span> obj <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="kw">switch</span> <span class="op">(</span>obj<span class="op">)</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="dt">int</span> i when i <span class="op">&gt;</span> <span class="dv">5</span><span class="op">:</span> <span class="co">// when절을 추가하여 더 복잡한 조건 설정가능</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is an int greater than 5"</span><span class="op">);</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="dt">string</span> str<span class="op">:</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">"obj is a string: {str}"</span><span class="op">);</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="kw">null</span><span class="op">:</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj is null"</span><span class="op">);</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">default</span><span class="op">:</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>        Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span><span class="st">"obj does not match any cases"</span><span class="op">);</span></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">break</span><span class="op">;</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="패턴-매칭의-장점" class="level3">
 <h3 class="anchored" data-anchor-id="패턴-매칭의-장점">패턴 매칭의 장점</h3>
