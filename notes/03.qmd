@@ -303,8 +303,9 @@ public class RefStructExample
     }
 
 }
+```
 
-네, `Span<T>`와 `ref struct`를 사용했을 때 성능 및 안전성 측면에서 얻을 수 있는 장점을 보여주는 간단한 예제를 C#으로 작성해 보겠습니다.
+`Span<T>`와 `ref struct`를 사용했을 때 성능 및 안전성 측면에서 얻을 수 있는 장점을 보여주는 간단한 예제를 C#으로 작성해 보겠습니다.
 
 예제 1: `Span<T>`를 사용한 문자열 파싱 성능 향상
 
@@ -342,7 +343,11 @@ public class SpanExample
         Console.WriteLine($"Span Elapsed: {sw.ElapsedMilliseconds} ms");
     }
 }
+```
 
+예제 2: `ref struct<T>`를 사용한 문자열 파싱 성능 향상
+
+```python
 public class RefStructExample
 {
      // ref struct 예시

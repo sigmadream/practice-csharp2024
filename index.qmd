@@ -12,30 +12,32 @@ date: last-modified
 
 ## Tools
 
-- 1. C#과 .NET
-- 2. Visual Studio와 Solution
+1. C#과 .NET
+1. Visual Studio와 Solution
 
-### Syntax Part.1
+## Syntax Part.1
 
-- 1. Data, Value 그리고 Ref
-- 2. Struct and Class
-- 3. 인터페이스와 추상 클래스
-- 4. 프로퍼티
-- 5. 메소드
-- 6. 배열과 컬렉션
-- 6. 예외 처리하기
-- 7. 파일 다루기
+1. Data, Value 그리고 Ref
+1. Struct and Class
+1. 인터페이스와 추상 클래스
+1. 프로퍼티
+1. 메소드
+1. 배열과 컬렉션
+1. 예외 처리하기
+1. 파일 다루기
 
-### Syntax Part.2
+## Syntax Part.2
 
-- 1. 대리자와 이벤트
-- 2. 일반화 프로그래밍
-- 3. 람다식와 LINQ
-- 4. 리플렉션과 애트리뷰트
-- 5. dynamic 형식
-- 6. 스레드와 태스크
-- 7. 가비지 컬렉션
+1. 대리자와 이벤트
+1. 일반화 프로그래밍
+1. 람다식와 LINQ
+1. 리플렉션과 애트리뷰트
+1. dynamic 형식
+1. 스레드와 태스크
+1. 가비지 컬렉션
 
-### Project Part.1
+## Project Part.1
 
-- MAUI
+- Windows Forms
+- WPF 
+- Blazor
